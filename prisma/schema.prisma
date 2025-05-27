@@ -1,11 +1,6 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
+  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -14,77 +9,95 @@ datasource db {
 }
 
 enum Role {
-  MANAGER
-  CASHIER
-}
-
-enum Category {
-  FOOD
-  DRINK
-  SNACK
-}
-
-enum Payment {
-  CASH
-  QRIS
-}
-
-enum Status {
-  NEW
-  PAID
-  DONE
+  ADMIN
+  USER
 }
 
 model User {
-  id              Int      @id @default(autoincrement())
-  uuid            String   @unique @default("")
-  name            String   @default("")
-  email           String   @unique @default("")
-  password        String   @default("")
-  profile_picture String   @default("")
-  role            Role     @default(CASHIER)
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  orderDetail     Order[]
-}
-
-model Menu {
-  id          Int         @id @default(autoincrement())
-  uuid        String      @unique @default("")
-  name        String      @default("")
-  price       Int         @default(0)
-  category    Category    @default(FOOD)
-  picture     String      @default("")
-  description String      @default("") @db.Text
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  orderLists  OrderList[]
-}
-
-model Order {
-  id             Int         @id @default(autoincrement())
-  uuid           String      @unique @default("")
-  customer       String      @default("")
-  table_number   String      @default("")
-  total_price    Int         @default(0)
-  payment_method Payment     @default(CASH)
-  status         Status      @default(NEW)
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @updatedAt
-  orderLists     OrderList[]
-  User           User?       @relation(fields: [userId], references: [id])
-  userId         Int?
-}
-
-model OrderList {
   id        Int      @id @default(autoincrement())
-  uuid      String   @unique @default("")
-  quantity  Int      @default(0)
-  note      String   @default("") @db.Text
+  name      String
+  email     String   @unique
+  password  String
+  role      Role
+  tickets   Ticket[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  Menu      Menu?    @relation(fields: [menuId], references: [id])
-  menuId    Int?
-  Order     Order?   @relation(fields: [orderId], references: [id])
-  orderId   Int?
+}
+
+model Kelas_Kereta {
+  id            Int             @id @default(autoincrement())
+  nama          String // ekonomi, bisnis, eksekutif dll
+  gerbong_list  Gerbong[]
+  tickets       Ticket[]
+  jadwal_kereta Jadwal_Kereta[]
+}
+
+model Gerbong {
+  id              Int          @id @default(autoincrement())
+  nama            String // A, B, C
+  kelas_kereta    Kelas_Kereta @relation(fields: [kelas_kereta_id], references: [id])
+  kelas_kereta_id Int
+  kursi_list      Kursi[]
+}
+
+model Kursi {
+  id         Int      @id @default(autoincrement())
+  nomor      String // A1, B3
+  gerbong    Gerbong  @relation(fields: [gerbong_id], references: [id])
+  gerbong_id Int
+  tickets    Ticket[]
+}
+
+model Ticket {
+  id               Int           @id @default(autoincrement())
+  user             User          @relation(fields: [user_id], references: [id])
+  user_id          Int
+  kursi            Kursi         @relation(fields: [kursi_id], references: [id])
+  kursi_id         Int
+  kelas_kereta     Kelas_Kereta  @relation(fields: [kelas_kereta_id], references: [id])
+  kelas_kereta_id  Int
+  jadwal_kereta    Jadwal_Kereta @relation(fields: [jadwal_kereta_id], references: [id])
+  jadwal_kereta_id Int
+  transaksi        Transaksi?    @relation(fields: [transaksi_id], references: [id])
+  transaksi_id     Int?
+  tanggal          DateTime
+}
+
+model Transaksi {
+  id                   Int               @id @default(autoincrement())
+  tickets              Ticket[]
+  total_harga          Float
+  metode_pembayaran    Metode_Pembayaran @relation(fields: [metode_pembayaran_id], references: [id])
+  metode_pembayaran_id Int
+  status               String // pending, success, failed
+  createdAt            DateTime          @default(now())
+}
+
+model Metode_Pembayaran {
+  id             Int         @id @default(autoincrement())
+  nama           String // transfer bank, E-Wallet
+  transaksi_list Transaksi[]
+}
+
+model Jadwal_Kereta {
+  id              Int          @id @default(autoincrement())
+  dari_stasiun    Stasiun      @relation("DariStasiun", fields: [dari_id], references: [id])
+  dari_id         Int
+  ke_stasiun      Stasiun      @relation("KeStasiun", fields: [ke_id], references: [id])
+  ke_id           Int
+  tanggal         DateTime     @default(now()) @db.Date
+  kelas_kereta    Kelas_Kereta @relation(fields: [kelas_kereta_id], references: [id])
+  kelas_kereta_id Int
+  jam_berangkat   String
+  jam_tiba        String
+  harga           Float
+  Ticket          Ticket[]
+}
+
+model Stasiun {
+  id               Int             @id @default(autoincrement())
+  nama             String
+  kota             String
+  jadwal_berangkat Jadwal_Kereta[] @relation("DariStasiun")
+  jadwal_tujuan    Jadwal_Kereta[] @relation("KeStasiun")
 }

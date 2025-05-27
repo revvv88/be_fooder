@@ -4,10 +4,15 @@ import swaggerJsDoc from 'swagger-jsdoc'
 import swaggerUi from 'swagger-ui-express'
 import path from 'path'
 
-import MenuRoute from './routers/menuRoute'
 import UserRoute from './routers/userRoute'
-import OrderRoute from './routers/orderRoute'
-import ReportRoute from './routers/reportRoute'
+import kelasKeretaRoute from './routers/kelasKeretaRoute'
+import gerbongRoute from './routers/gerbongRoute'
+import kursiRoute from './routers/kursiRoute'
+import tiketRoute from './routers/tiketRoute'
+import transaksiRoute from './routers/transaksiRoute'
+import metodePembayaranRoute from './routers/metodePembayaranRoute'
+import jadwalKeretaRoute from './routers/jadwalKeretaRoute'
+
 
 import { PORT } from './global'
 
@@ -45,10 +50,15 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsDoc(swaggerOptions)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 
-app.use(`/menu`, MenuRoute)
+
 app.use(`/user`, UserRoute)
-app.use(`/order`, OrderRoute)
-app.use(`/report`, ReportRoute)
+app.use(`/kelasKereta`, kelasKeretaRoute)
+app.use(`/gerbong`, gerbongRoute)
+app.use(`/kursi`, kursiRoute)
+app.use(`/tiket`, tiketRoute)
+app.use(`/transaksi`, transaksiRoute)
+app.use(`/metodePembayaran`, metodePembayaranRoute)
+app.use(`/jadwalKereta`, jadwalKeretaRoute)
 
 // Set public folder as static
 app.use(express.static(path.join(__dirname, '..', 'public')));

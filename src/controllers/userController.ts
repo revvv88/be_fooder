@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, user_role } from "@prisma/client";
 import fs from "fs";
 import { BASE_URL, SECRET } from "../global";
-import { v4 as uuidv4 } from "uuid";
+
 import md5 from "md5";
 import { sign } from "jsonwebtoken";
 
@@ -69,33 +69,41 @@ export const getUserById = async (request: Request, response: Response) => {
 
 export const createUser = async (request: Request, response: Response) => {
     try {
-        /** get requested data (data has been sent from request) */
-        const { name, email, password, role } = request.body
-        const uuid = uuidv4()
-
-        /** variable filename use to define of uploaded file name */
-        let filename = ""
-        if (request.file) filename = request.file.filename /** get file name of uploaded file */
-
-        /** process to save new user */
-        const newUser = await prisma.user.create({
-            data: { uuid, name, email, password: md5(password), role, profile_picture: filename }
-        })
-
-        return response.json({
-            status: true,
-            data: newUser,
-            message: `New user has created`
-        }).status(200)
+      const { name, email, password, role } = request.body
+  
+      // Validasi role
+      const normalizedRole = role?.toUpperCase()
+      console.log(normalizedRole);
+      
+    //   if (!normalizedRole || !(normalizedRole in Role)) {
+    //     return response.status(400).json({
+    //       status: false,
+    //       message: "Role tidak valid. Gunakan: ADMIN atau USER",
+    //     })
+    //   }
+  
+      const newUser = await prisma.user.create({
+        data: {
+          name,
+          email,
+          password: md5(password),
+          role: user_role[normalizedRole as keyof typeof user_role], 
+          updatedAt: new Date(),
+        },
+      })
+  
+      return response.status(200).json({
+        status: true,
+        data: newUser,
+        message: `New user has been created`,
+      })
     } catch (error) {
-        return response
-            .json({
-                status: false,
-                message: `There is an error. ${error}`
-            })
-            .status(400)
+      return response.status(400).json({
+        status: false,
+        message: `There is an error. ${error}`,
+      })
     }
-}
+  }
 
 export const updateUser = async (request: Request, response: Response) => {
     try {
@@ -111,16 +119,7 @@ export const updateUser = async (request: Request, response: Response) => {
             .json({ status: false, message: `user is not found` })
 
         /** default value filename of saved data */
-        let filename = findUser.profile_picture
-        if (request.file) {
-            /** update filename by new uploaded picture */
-            filename = request.file.filename
-            /** check the old picture in the folder */
-            let path = `${BASE_URL}/../public/profile_picture/${findUser.profile_picture}`
-            let exists = fs.existsSync(path)
-            /** delete the old exists picture if reupload new file */
-            if(exists && findUser.profile_picture !== ``) fs.unlinkSync(path)
-        }
+       
 
         /** process to update user's data */
         const updatedUser = await prisma.user.update({
@@ -129,7 +128,6 @@ export const updateUser = async (request: Request, response: Response) => {
                 email: email || findUser.email,
                 password: password ? md5(password) : findUser.password,
                 role: role || findUser.role,
-                profile_picture: filename
             },
             where: { id: Number(id) }
         })
@@ -148,63 +146,20 @@ export const updateUser = async (request: Request, response: Response) => {
             .status(400)
     }
 }
-
-export const changePicture = async (request: Request, response: Response) => {
-    try {
-        /** get id of menu's id that sent in parameter of URL */
-        const { id } = request.params
-
-        /** make sure that data is exists in database */
-        const findUser = await prisma.user.findFirst({ where: { id: Number(id) } })
-        if (!findUser) return response
-            .status(200)
-            .json({ status: false, message: `User is not found` })
-        
-        /** default value filename of saved data */
-        let filename = findUser.profile_picture
-        if (request.file) {
-            /** update filename by new uploaded picture */
-            filename = request.file.filename
-            /** check the old picture in the folder */
-            let path = `${BASE_URL}/../public/profile_picture/${findUser.profile_picture}`
-            let exists = fs.existsSync(path)
-            /** delete the old exists picture if reupload new file */
-            if(exists && findUser.profile_picture !== ``) fs.unlinkSync(path)
-        }
-        
-        /** process to update picture in database */
-        const updatePicture = await prisma.user.update({
-            data: { profile_picture: filename },
-            where: { id: Number(id) }
-        })
-
-        return response.json({
-            status: true,
-            data: updatePicture,
-            message: `Picture has changed`
-        }).status(200)
-    } catch (error) {
-        return response.json({
-            status: false,
-            message: `There is an error. ${error}`
-        }).status(400)
-    }
-}
-
 export const deleteUser = async (request: Request, response: Response) => {
     try {
         /** get id of user's id that sent in parameter of URL */
         const { id } = request.params
         /** make sure that data is exists in database */
         const findUser = await prisma.user.findFirst({ where: { id: Number(id) } })
-        if (!findUser) return response
-            .status(200)
-            .json({ status: false, message: `user is not found` })
+        // if (!findUser) return response
+        //     .status(200)
+        //     .json({ status: false, message: `user is not found` })
 
-        /** prepare to delete file of deleted user's data */
-        let path = `${BASE_URL}/public/profile_picture/${findUser.profile_picture}` /** define path (address) of file location */
-        let exists = fs.existsSync(path)
-        if (exists && findUser.profile_picture !== ``) fs.unlinkSync(path) /** if file exist, then will be delete */
+        // /** prepare to delete file of deleted user's data */
+        // let path = `${BASE_URL}/public/profile_picture/${findUser.profile_picture}` /** define path (address) of file location */
+        // let exists = fs.existsSync(path)
+        // if (exists && findUser.profile_picture !== ``) fs.unlinkSync(path) /** if file exist, then will be delete */
 
         /** process to delete user's data */
         const deleteduser = await prisma.user.delete({
@@ -243,18 +198,19 @@ export const authentication = async (request: Request, response: Response) => {
             id: findUser.id,
             name: findUser.name,
             email: findUser.email,
-            role: findUser.role
+            role: findUser.role,
+
         }
 
         /** define payload to generate token */
         let payload = JSON.stringify(data)
 
         /** generate token */
-        let token = sign(payload, SECRET || "joss")
+        // let token = sign(payload, SECRET || "joss")
 
         return response
             .status(200)
-            .json({ status: true, logged: true, data: data, message: `Login Success`, token })
+            .json({ status: true, logged: true, data: data, message: `Login Success`})
     } catch (error) {
         return response
             .json({
