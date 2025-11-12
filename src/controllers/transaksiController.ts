@@ -3,10 +3,20 @@ import { PrismaClient } from "../../generated/prisma";
 
 const prisma = new PrismaClient();
 
-
 export const getAllTransaksi = async (req: Request, res: Response) => {
   try {
+    const { user_id } = req.query;
+    const whereCondition = user_id
+    ? {
+        tickets: {
+          some: {
+            user_id: Number(user_id),
+          },
+        },
+      }
+    : undefined;
     const transaksi = await prisma.transaksi.findMany({
+      where: whereCondition,
       include: { metode_pembayaran: true, tickets: true },
     });
     res.status(200).json({ status: true, data: transaksi });
@@ -14,7 +24,6 @@ export const getAllTransaksi = async (req: Request, res: Response) => {
     res.status(400).json({ status: false, message: `Error: ${err}` });
   }
 };
-
 
 export const getTransaksiById = async (req: Request, res: Response) => {
   try {
@@ -34,19 +43,15 @@ export const getTransaksiById = async (req: Request, res: Response) => {
   }
 };
 
-
 export const createTransaksi = async (req: Request, res: Response) => {
   try {
-    const { ticketIds, total_harga, metode_pembayaran_id, status } = req.body;
+    const { total_harga, metode_pembayaran_id, status } = req.body;
 
     const transaksi = await prisma.transaksi.create({
       data: {
         total_harga,
         metode_pembayaran_id,
         status,
-        tickets: {
-          connect: ticketIds.map((id: number) => ({ id })),
-        },
       },
     });
 

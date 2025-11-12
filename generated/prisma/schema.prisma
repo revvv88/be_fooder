@@ -13,15 +13,29 @@ enum Role {
   USER
 }
 
+enum order_status {
+  NEW
+  PAID
+  DONE
+}
+
+enum paymentmethod_tipe {
+  VIRTUAL
+  DEBIT
+}
+
 model User {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  password  String
-  role      Role
-  tickets   Ticket[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id              Int      @id @default(autoincrement())
+  name            String
+  nomor_identitas String
+  nomor_hp        String
+  email           String
+  alamat          String
+  password        String
+  role            Role
+  tickets         Ticket[]
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
 
 model Kelas_Kereta {
@@ -33,11 +47,12 @@ model Kelas_Kereta {
 }
 
 model Gerbong {
-  id              Int          @id @default(autoincrement())
+  id              Int             @id @default(autoincrement())
   nama            String // A, B, C
-  kelas_kereta    Kelas_Kereta @relation(fields: [kelas_kereta_id], references: [id])
+  kelas_kereta    Kelas_Kereta    @relation(fields: [kelas_kereta_id], references: [id])
   kelas_kereta_id Int
   kursi_list      Kursi[]
+  Jadwal_Kereta   Jadwal_Kereta[]
 }
 
 model Kursi {
@@ -56,11 +71,22 @@ model Ticket {
   kursi_id         Int
   kelas_kereta     Kelas_Kereta  @relation(fields: [kelas_kereta_id], references: [id])
   kelas_kereta_id  Int
-  jadwal_kereta    Jadwal_Kereta @relation(fields: [jadwal_kereta_id], references: [id])
   jadwal_kereta_id Int
+  jadwal_kereta    Jadwal_Kereta @relation(fields: [jadwal_kereta_id], references: [id])
   transaksi        Transaksi?    @relation(fields: [transaksi_id], references: [id])
   transaksi_id     Int?
   tanggal          DateTime
+  penumpang        Penumpang?
+}
+
+model Penumpang {
+  id              Int    @id @default(autoincrement())
+  nama            String
+  nomor_identitas String
+  nomor_hp        String
+  address         String
+  ticket          Ticket @relation(fields: [ticket_id], references: [id])
+  ticket_id       Int    @unique
 }
 
 model Transaksi {
@@ -69,14 +95,17 @@ model Transaksi {
   total_harga          Float
   metode_pembayaran    Metode_Pembayaran @relation(fields: [metode_pembayaran_id], references: [id])
   metode_pembayaran_id Int
-  status               String // pending, success, failed
+  status               order_status // pending, success, failed
   createdAt            DateTime          @default(now())
+  va                   String?
+  nomor_kartu          String?
 }
 
 model Metode_Pembayaran {
-  id             Int         @id @default(autoincrement())
+  id             Int                 @id @default(autoincrement())
   nama           String // transfer bank, E-Wallet
   transaksi_list Transaksi[]
+  tipe           paymentmethod_tipe?
 }
 
 model Jadwal_Kereta {
@@ -91,7 +120,9 @@ model Jadwal_Kereta {
   jam_berangkat   String
   jam_tiba        String
   harga           Float
-  Ticket          Ticket[]
+  tickets         Ticket[]
+  gerbong         Gerbong      @relation(fields: [gerbong_id], references: [id])
+  gerbong_id      Int
 }
 
 model Stasiun {

@@ -3,16 +3,19 @@ import { getAllTransaksi,getTransaksiById, createTransaksi, updateTransaksi, del
 import { verifyAddUser, verifyEditUser, verifyAuthentication } from "../middlewares/userValidation"
 import uploadFile from "../middlewares/profilUpload"
 import { verifyToken, verifyRole } from "../middlewares/authorization"
+import { updateByOrderId } from "../controllers/paymentController"
 
 const app = express()
 app.use(express.json())
 
 app.get(`/`,getAllTransaksi)
-app.get(`/profile`, getTransaksiById)
+app.get(`/:id`, getTransaksiById)
 app.post(`/`, createTransaksi)
 app.put(`/:id`, updateTransaksi)
 app.put(`/profile/:id`)
 app.delete(`/:id`, deleteTransaksi)
+app.put(`/updateByOrderId/:id`, updateByOrderId )
+
 
 export default app
 

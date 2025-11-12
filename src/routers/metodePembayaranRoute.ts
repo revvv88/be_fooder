@@ -1,5 +1,5 @@
 import express from "express"
-import { getAllMetode, getMetodeById, createMetode,updateMetode, deleteMetode } from "../controllers/metodePembayaran"
+import { getAllMetode, getMetodeById, createMetode,updateMetode, deleteMetode, getByType } from "../controllers/paymentMethodController"
 import { verifyAddUser, verifyEditUser, verifyAuthentication } from "../middlewares/userValidation"
 import uploadFile from "../middlewares/profilUpload"
 import { verifyToken, verifyRole } from "../middlewares/authorization"
@@ -13,6 +13,8 @@ app.post(`/`, createMetode)
 app.put(`/:id`, updateMetode)
 app.put(`/profile/:id`)
 app.delete(`/:id`, deleteMetode)
+app.get(`/tipe`, getByType)
+
 
 export default app
 

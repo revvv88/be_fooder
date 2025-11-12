@@ -123,7 +123,10 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  nomor_identitas: 'nomor_identitas',
+  nomor_hp: 'nomor_hp',
   email: 'email',
+  alamat: 'alamat',
   password: 'password',
   role: 'role',
   createdAt: 'createdAt',
@@ -157,17 +160,29 @@ exports.Prisma.TicketScalarFieldEnum = {
   tanggal: 'tanggal'
 };
 
+exports.Prisma.PenumpangScalarFieldEnum = {
+  id: 'id',
+  nama: 'nama',
+  nomor_identitas: 'nomor_identitas',
+  nomor_hp: 'nomor_hp',
+  address: 'address',
+  ticket_id: 'ticket_id'
+};
+
 exports.Prisma.TransaksiScalarFieldEnum = {
   id: 'id',
   total_harga: 'total_harga',
   metode_pembayaran_id: 'metode_pembayaran_id',
   status: 'status',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  va: 'va',
+  nomor_kartu: 'nomor_kartu'
 };
 
 exports.Prisma.Metode_PembayaranScalarFieldEnum = {
   id: 'id',
-  nama: 'nama'
+  nama: 'nama',
+  tipe: 'tipe'
 };
 
 exports.Prisma.Jadwal_KeretaScalarFieldEnum = {
@@ -178,7 +193,8 @@ exports.Prisma.Jadwal_KeretaScalarFieldEnum = {
   kelas_kereta_id: 'kelas_kereta_id',
   jam_berangkat: 'jam_berangkat',
   jam_tiba: 'jam_tiba',
-  harga: 'harga'
+  harga: 'harga',
+  gerbong_id: 'gerbong_id'
 };
 
 exports.Prisma.StasiunScalarFieldEnum = {
@@ -201,12 +217,24 @@ exports.Role = exports.$Enums.Role = {
   USER: 'USER'
 };
 
+exports.order_status = exports.$Enums.order_status = {
+  NEW: 'NEW',
+  PAID: 'PAID',
+  DONE: 'DONE'
+};
+
+exports.paymentmethod_tipe = exports.$Enums.paymentmethod_tipe = {
+  VIRTUAL: 'VIRTUAL',
+  DEBIT: 'DEBIT'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Kelas_Kereta: 'Kelas_Kereta',
   Gerbong: 'Gerbong',
   Kursi: 'Kursi',
   Ticket: 'Ticket',
+  Penumpang: 'Penumpang',
   Transaksi: 'Transaksi',
   Metode_Pembayaran: 'Metode_Pembayaran',
   Jadwal_Kereta: 'Jadwal_Kereta',

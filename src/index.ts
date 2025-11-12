@@ -12,6 +12,7 @@ import tiketRoute from './routers/tiketRoute'
 import transaksiRoute from './routers/transaksiRoute'
 import metodePembayaranRoute from './routers/metodePembayaranRoute'
 import jadwalKeretaRoute from './routers/jadwalKeretaRoute'
+import stasiunRoute from './routers/stasiunRoute'
 
 
 import { PORT } from './global'
@@ -59,6 +60,7 @@ app.use(`/tiket`, tiketRoute)
 app.use(`/transaksi`, transaksiRoute)
 app.use(`/metodePembayaran`, metodePembayaranRoute)
 app.use(`/jadwalKereta`, jadwalKeretaRoute)
+app.use(`/stasiun`, stasiunRoute)
 
 // Set public folder as static
 app.use(express.static(path.join(__dirname, '..', 'public')));

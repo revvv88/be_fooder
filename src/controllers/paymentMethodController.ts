@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "../../generated/prisma";
+import { $Enums, PrismaClient } from "../../generated/prisma";
 
 const prisma = new PrismaClient();
 
@@ -78,3 +78,28 @@ export const deleteMetode = async (req: Request, res: Response) => {
     res.status(400).json({ status: false, message: `Error: ${err}` });
   }
 };
+
+export const getByType = async (request: Request, response: Response) => {
+  try {
+      /** get requested data (data has been sent from request) */
+      const { type } = request.query
+
+      /** process to get menu, contains means search name of menu based on sent keyword */
+      const allMethod = await prisma.metode_Pembayaran.findMany({
+          where: { tipe: type as $Enums.paymentmethod_tipe }
+      })
+
+      return response.json({
+          status: true,
+          data: allMethod,
+          message: `Payment Method has retrieved`
+      }).status(200)
+  } catch (error) {
+      return response
+          .json({
+              status: false,
+              message: `There is an error. ${error}`
+          })
+          .status(400)
+  }
+}

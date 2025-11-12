@@ -10,27 +10,34 @@ export const getJadwalKereta = async (req: Request, res: Response) => {
   const { from, to, tanggal } = req.query;
 
   try {
+    const whereClause: any = {};
+
+    if (from) whereClause.dari_id = Number(from);
+    if (to) whereClause.ke_id = Number(to);
+    if (tanggal) {
+      const date = new Date(String(tanggal));
+      if (!isNaN(date.getTime())) {
+        whereClause.tanggal = date;
+      }
+    }
+
     const jadwal = await prisma.jadwal_Kereta.findMany({
-      where: {
-        dari_id: Number(from),
-        ke_id: Number(to),
-        tanggal: new Date(String(tanggal)),
-      },
+      where: whereClause,
       include: {
         kelas_kereta: true,
-        dari_stasiun: true,
+        dari_stasiun:true,
         ke_stasiun: true,
+        gerbong: true,
       },
     });
 
-    res
-      .status(200)
-      .json({ status: true, data: jadwal, message: "Jadwal ditemukan" });
+    res.status(200).json({ status: true, data: jadwal, message: "Jadwal ditemukan" });
   } catch (err) {
-    console.error(err);
+    console.error("Error di getJadwalKereta:", err);
     res.status(500).json({ status: false, message: "Gagal ambil data jadwal" });
   }
 };
+
 
 export const getJadwalKeretaById = async (req: Request, res: Response) => {
   try {
@@ -42,6 +49,7 @@ export const getJadwalKeretaById = async (req: Request, res: Response) => {
         kelas_kereta: true,
         dari_stasiun: true,
         ke_stasiun: true,
+        gerbong:true
       },
     });
 
@@ -54,7 +62,7 @@ export const getJadwalKeretaById = async (req: Request, res: Response) => {
       .status(200)
       .json({
         status: true,
-        data: getJadwalKereta,
+        data: ticket,
         message: "JadwalKereta found",
       });
   } catch (error) {
@@ -62,11 +70,12 @@ export const getJadwalKeretaById = async (req: Request, res: Response) => {
   }
 };
 
-export const createJadwalKereta = async (req: AuthRequest, res: Response) => {
+export const createJadwalKereta = async (req: Request, res: Response) => {
   try {
     const {
       kelas_kereta_id,
       transaksi_id,
+      gerbong_id,
       tanggal,
       dari_id,
       ke_id,
@@ -75,14 +84,7 @@ export const createJadwalKereta = async (req: AuthRequest, res: Response) => {
       harga,
     } = req.body;
 
-    // ambil user_id dari JWT token, bukan dari req.body
-    const user_id = req.user?.id;
-
-    if (!user_id) {
-      return res.status(401).json({ status: false, message: "Unauthorized" });
-    }
-
-    // validasi kursi udah dibooking
+    // Validasi kursi udah dibooking
     const existing = await prisma.jadwal_Kereta.findFirst({
       where: {
         kelas_kereta_id,
@@ -90,12 +92,7 @@ export const createJadwalKereta = async (req: AuthRequest, res: Response) => {
       },
     });
 
-    if (existing) {
-      return res.status(400).json({
-        status: false,
-        message: "Kursi ini sudah dibooking pada jadwal tersebut",
-      });
-    }
+   
 
     const newJadwalKereta = await prisma.jadwal_Kereta.create({
       data: {
@@ -106,20 +103,20 @@ export const createJadwalKereta = async (req: AuthRequest, res: Response) => {
         jam_tiba,
         kelas_kereta_id,
         harga,
+        gerbong_id,
       },
     });
 
-    res
-      .status(201)
-      .json({
-        status: true,
-        data: newJadwalKereta,
-        message: "JadwalKereta created",
-      });
+    res.status(201).json({
+      status: true,
+      data: newJadwalKereta,
+      message: "JadwalKereta created",
+    });
   } catch (error) {
     res.status(400).json({ status: false, message: `Error: ${error}` });
   }
 };
+
 
 export const updateJadwalKereta = async (req: Request, res: Response) => {
   try {
@@ -133,6 +130,7 @@ export const updateJadwalKereta = async (req: Request, res: Response) => {
       jam_berangkat,
       jam_tiba,
       harga,
+      gerbong_id
     } = req.body;
 
     const updatedJadwalKereta = await prisma.jadwal_Kereta.update({
@@ -144,6 +142,7 @@ export const updateJadwalKereta = async (req: Request, res: Response) => {
         jam_tiba,
         kelas_kereta_id,
         harga,
+        gerbong_id
       },
       where: { id: Number(id) },
     });

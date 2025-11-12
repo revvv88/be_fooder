@@ -8,11 +8,12 @@ const app = express()
 app.use(express.json())
 
 app.get(`/`,getAllUsers)
-app.get(`/profile`, getUserById)
+app.get(`/profile/:id`, getUserById)
 app.post(`/`, createUser)
 app.put(`/:id`, updateUser)
 app.put(`/profile/:id`)
 app.delete(`/:id`, deleteUser)
+app.post(`/login`, [verifyAuthentication], authentication)
 
 export default app
 

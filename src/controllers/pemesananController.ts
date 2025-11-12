@@ -1,12 +1,7 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "../../generated/prisma";
-import { v4 as uuidv4 } from "uuid";
-import md5 from "md5";
-import { sign } from "jsonwebtoken";
-import { AuthRequest } from "../middlewares/verifyToken";
 
-const prisma = new PrismaClient({ errorFormat: "pretty" })
-
+const prisma = new PrismaClient();
 export const getAllTickets = async (req: Request, res: Response) => {
   try {
     const { search } = req.query;
@@ -199,5 +194,30 @@ export const getTicketById = async (req: Request, res: Response) => {
   }
 };
 
-  
-  
+export const getAllHistory = async (req: Request, res: Response) => {
+  try {
+    const { user_id } = req.query;
+
+    const tickets = await prisma.ticket.findMany({
+      where: user_id ? { user_id: Number(user_id) } : undefined,
+      include: {
+        user: { select: { id: true, name: true, email: true } },
+        kursi: true,
+        kelas_kereta: true,
+        jadwal_kereta: true,
+        transaksi: true,
+      },
+    });
+
+    res.status(200).json({
+      status: true,
+      data: tickets,
+      message: "Ticket history retrieved",
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      message: `Error retrieving ticket history: ${error}`,
+    });
+  }
+};

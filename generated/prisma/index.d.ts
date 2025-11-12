@@ -39,6 +39,11 @@ export type Kursi = $Result.DefaultSelection<Prisma.$KursiPayload>
  */
 export type Ticket = $Result.DefaultSelection<Prisma.$TicketPayload>
 /**
+ * Model Penumpang
+ * 
+ */
+export type Penumpang = $Result.DefaultSelection<Prisma.$PenumpangPayload>
+/**
  * Model Transaksi
  * 
  */
@@ -70,11 +75,36 @@ export namespace $Enums {
 
 export type Role = (typeof Role)[keyof typeof Role]
 
+
+export const order_status: {
+  NEW: 'NEW',
+  PAID: 'PAID',
+  DONE: 'DONE'
+};
+
+export type order_status = (typeof order_status)[keyof typeof order_status]
+
+
+export const paymentmethod_tipe: {
+  VIRTUAL: 'VIRTUAL',
+  DEBIT: 'DEBIT'
+};
+
+export type paymentmethod_tipe = (typeof paymentmethod_tipe)[keyof typeof paymentmethod_tipe]
+
 }
 
 export type Role = $Enums.Role
 
 export const Role: typeof $Enums.Role
+
+export type order_status = $Enums.order_status
+
+export const order_status: typeof $Enums.order_status
+
+export type paymentmethod_tipe = $Enums.paymentmethod_tipe
+
+export const paymentmethod_tipe: typeof $Enums.paymentmethod_tipe
 
 /**
  * ##  Prisma Client ʲˢ
@@ -250,6 +280,16 @@ export class PrismaClient<
     * ```
     */
   get ticket(): Prisma.TicketDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.penumpang`: Exposes CRUD operations for the **Penumpang** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Penumpangs
+    * const penumpangs = await prisma.penumpang.findMany()
+    * ```
+    */
+  get penumpang(): Prisma.PenumpangDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.transaksi`: Exposes CRUD operations for the **Transaksi** model.
@@ -735,6 +775,7 @@ export namespace Prisma {
     Gerbong: 'Gerbong',
     Kursi: 'Kursi',
     Ticket: 'Ticket',
+    Penumpang: 'Penumpang',
     Transaksi: 'Transaksi',
     Metode_Pembayaran: 'Metode_Pembayaran',
     Jadwal_Kereta: 'Jadwal_Kereta',
@@ -757,7 +798,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "kelas_Kereta" | "gerbong" | "kursi" | "ticket" | "transaksi" | "metode_Pembayaran" | "jadwal_Kereta" | "stasiun"
+      modelProps: "user" | "kelas_Kereta" | "gerbong" | "kursi" | "ticket" | "penumpang" | "transaksi" | "metode_Pembayaran" | "jadwal_Kereta" | "stasiun"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1088,6 +1129,72 @@ export namespace Prisma {
           count: {
             args: Prisma.TicketCountArgs<ExtArgs>
             result: $Utils.Optional<TicketCountAggregateOutputType> | number
+          }
+        }
+      }
+      Penumpang: {
+        payload: Prisma.$PenumpangPayload<ExtArgs>
+        fields: Prisma.PenumpangFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PenumpangFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenumpangPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PenumpangFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenumpangPayload>
+          }
+          findFirst: {
+            args: Prisma.PenumpangFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenumpangPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PenumpangFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenumpangPayload>
+          }
+          findMany: {
+            args: Prisma.PenumpangFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenumpangPayload>[]
+          }
+          create: {
+            args: Prisma.PenumpangCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenumpangPayload>
+          }
+          createMany: {
+            args: Prisma.PenumpangCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.PenumpangDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenumpangPayload>
+          }
+          update: {
+            args: Prisma.PenumpangUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenumpangPayload>
+          }
+          deleteMany: {
+            args: Prisma.PenumpangDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PenumpangUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.PenumpangUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenumpangPayload>
+          }
+          aggregate: {
+            args: Prisma.PenumpangAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePenumpang>
+          }
+          groupBy: {
+            args: Prisma.PenumpangGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PenumpangGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PenumpangCountArgs<ExtArgs>
+            result: $Utils.Optional<PenumpangCountAggregateOutputType> | number
           }
         }
       }
@@ -1444,6 +1551,7 @@ export namespace Prisma {
     gerbong?: GerbongOmit
     kursi?: KursiOmit
     ticket?: TicketOmit
+    penumpang?: PenumpangOmit
     transaksi?: TransaksiOmit
     metode_Pembayaran?: Metode_PembayaranOmit
     jadwal_Kereta?: Jadwal_KeretaOmit
@@ -1623,10 +1731,12 @@ export namespace Prisma {
 
   export type GerbongCountOutputType = {
     kursi_list: number
+    Jadwal_Kereta: number
   }
 
   export type GerbongCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     kursi_list?: boolean | GerbongCountOutputTypeCountKursi_listArgs
+    Jadwal_Kereta?: boolean | GerbongCountOutputTypeCountJadwal_KeretaArgs
   }
 
   // Custom InputTypes
@@ -1645,6 +1755,13 @@ export namespace Prisma {
    */
   export type GerbongCountOutputTypeCountKursi_listArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: KursiWhereInput
+  }
+
+  /**
+   * GerbongCountOutputType without action
+   */
+  export type GerbongCountOutputTypeCountJadwal_KeretaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: Jadwal_KeretaWhereInput
   }
 
 
@@ -1746,11 +1863,11 @@ export namespace Prisma {
    */
 
   export type Jadwal_KeretaCountOutputType = {
-    Ticket: number
+    tickets: number
   }
 
   export type Jadwal_KeretaCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    Ticket?: boolean | Jadwal_KeretaCountOutputTypeCountTicketArgs
+    tickets?: boolean | Jadwal_KeretaCountOutputTypeCountTicketsArgs
   }
 
   // Custom InputTypes
@@ -1767,7 +1884,7 @@ export namespace Prisma {
   /**
    * Jadwal_KeretaCountOutputType without action
    */
-  export type Jadwal_KeretaCountOutputTypeCountTicketArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Jadwal_KeretaCountOutputTypeCountTicketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TicketWhereInput
   }
 
@@ -1839,7 +1956,10 @@ export namespace Prisma {
   export type UserMinAggregateOutputType = {
     id: number | null
     name: string | null
+    nomor_identitas: string | null
+    nomor_hp: string | null
     email: string | null
+    alamat: string | null
     password: string | null
     role: $Enums.Role | null
     createdAt: Date | null
@@ -1849,7 +1969,10 @@ export namespace Prisma {
   export type UserMaxAggregateOutputType = {
     id: number | null
     name: string | null
+    nomor_identitas: string | null
+    nomor_hp: string | null
     email: string | null
+    alamat: string | null
     password: string | null
     role: $Enums.Role | null
     createdAt: Date | null
@@ -1859,7 +1982,10 @@ export namespace Prisma {
   export type UserCountAggregateOutputType = {
     id: number
     name: number
+    nomor_identitas: number
+    nomor_hp: number
     email: number
+    alamat: number
     password: number
     role: number
     createdAt: number
@@ -1879,7 +2005,10 @@ export namespace Prisma {
   export type UserMinAggregateInputType = {
     id?: true
     name?: true
+    nomor_identitas?: true
+    nomor_hp?: true
     email?: true
+    alamat?: true
     password?: true
     role?: true
     createdAt?: true
@@ -1889,7 +2018,10 @@ export namespace Prisma {
   export type UserMaxAggregateInputType = {
     id?: true
     name?: true
+    nomor_identitas?: true
+    nomor_hp?: true
     email?: true
+    alamat?: true
     password?: true
     role?: true
     createdAt?: true
@@ -1899,7 +2031,10 @@ export namespace Prisma {
   export type UserCountAggregateInputType = {
     id?: true
     name?: true
+    nomor_identitas?: true
+    nomor_hp?: true
     email?: true
+    alamat?: true
     password?: true
     role?: true
     createdAt?: true
@@ -1996,7 +2131,10 @@ export namespace Prisma {
   export type UserGroupByOutputType = {
     id: number
     name: string
+    nomor_identitas: string
+    nomor_hp: string
     email: string
+    alamat: string
     password: string
     role: $Enums.Role
     createdAt: Date
@@ -2025,7 +2163,10 @@ export namespace Prisma {
   export type UserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    nomor_identitas?: boolean
+    nomor_hp?: boolean
     email?: boolean
+    alamat?: boolean
     password?: boolean
     role?: boolean
     createdAt?: boolean
@@ -2039,14 +2180,17 @@ export namespace Prisma {
   export type UserSelectScalar = {
     id?: boolean
     name?: boolean
+    nomor_identitas?: boolean
+    nomor_hp?: boolean
     email?: boolean
+    alamat?: boolean
     password?: boolean
     role?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "role" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "nomor_identitas" | "nomor_hp" | "email" | "alamat" | "password" | "role" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tickets?: boolean | User$ticketsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -2060,7 +2204,10 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       name: string
+      nomor_identitas: string
+      nomor_hp: string
       email: string
+      alamat: string
       password: string
       role: $Enums.Role
       createdAt: Date
@@ -2437,7 +2584,10 @@ export namespace Prisma {
   interface UserFieldRefs {
     readonly id: FieldRef<"User", 'Int'>
     readonly name: FieldRef<"User", 'String'>
+    readonly nomor_identitas: FieldRef<"User", 'String'>
+    readonly nomor_hp: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
+    readonly alamat: FieldRef<"User", 'String'>
     readonly password: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'Role'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
@@ -4011,6 +4161,7 @@ export namespace Prisma {
     kelas_kereta_id?: boolean
     kelas_kereta?: boolean | Kelas_KeretaDefaultArgs<ExtArgs>
     kursi_list?: boolean | Gerbong$kursi_listArgs<ExtArgs>
+    Jadwal_Kereta?: boolean | Gerbong$Jadwal_KeretaArgs<ExtArgs>
     _count?: boolean | GerbongCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["gerbong"]>
 
@@ -4026,6 +4177,7 @@ export namespace Prisma {
   export type GerbongInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     kelas_kereta?: boolean | Kelas_KeretaDefaultArgs<ExtArgs>
     kursi_list?: boolean | Gerbong$kursi_listArgs<ExtArgs>
+    Jadwal_Kereta?: boolean | Gerbong$Jadwal_KeretaArgs<ExtArgs>
     _count?: boolean | GerbongCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -4034,6 +4186,7 @@ export namespace Prisma {
     objects: {
       kelas_kereta: Prisma.$Kelas_KeretaPayload<ExtArgs>
       kursi_list: Prisma.$KursiPayload<ExtArgs>[]
+      Jadwal_Kereta: Prisma.$Jadwal_KeretaPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -4381,6 +4534,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     kelas_kereta<T extends Kelas_KeretaDefaultArgs<ExtArgs> = {}>(args?: Subset<T, Kelas_KeretaDefaultArgs<ExtArgs>>): Prisma__Kelas_KeretaClient<$Result.GetResult<Prisma.$Kelas_KeretaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     kursi_list<T extends Gerbong$kursi_listArgs<ExtArgs> = {}>(args?: Subset<T, Gerbong$kursi_listArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KursiPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    Jadwal_Kereta<T extends Gerbong$Jadwal_KeretaArgs<ExtArgs> = {}>(args?: Subset<T, Gerbong$Jadwal_KeretaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$Jadwal_KeretaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4769,6 +4923,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: KursiScalarFieldEnum | KursiScalarFieldEnum[]
+  }
+
+  /**
+   * Gerbong.Jadwal_Kereta
+   */
+  export type Gerbong$Jadwal_KeretaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Jadwal_Kereta
+     */
+    select?: Jadwal_KeretaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Jadwal_Kereta
+     */
+    omit?: Jadwal_KeretaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Jadwal_KeretaInclude<ExtArgs> | null
+    where?: Jadwal_KeretaWhereInput
+    orderBy?: Jadwal_KeretaOrderByWithRelationInput | Jadwal_KeretaOrderByWithRelationInput[]
+    cursor?: Jadwal_KeretaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Jadwal_KeretaScalarFieldEnum | Jadwal_KeretaScalarFieldEnum[]
   }
 
   /**
@@ -5996,6 +6174,7 @@ export namespace Prisma {
     kelas_kereta?: boolean | Kelas_KeretaDefaultArgs<ExtArgs>
     jadwal_kereta?: boolean | Jadwal_KeretaDefaultArgs<ExtArgs>
     transaksi?: boolean | Ticket$transaksiArgs<ExtArgs>
+    penumpang?: boolean | Ticket$penumpangArgs<ExtArgs>
   }, ExtArgs["result"]["ticket"]>
 
 
@@ -6017,6 +6196,7 @@ export namespace Prisma {
     kelas_kereta?: boolean | Kelas_KeretaDefaultArgs<ExtArgs>
     jadwal_kereta?: boolean | Jadwal_KeretaDefaultArgs<ExtArgs>
     transaksi?: boolean | Ticket$transaksiArgs<ExtArgs>
+    penumpang?: boolean | Ticket$penumpangArgs<ExtArgs>
   }
 
   export type $TicketPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6027,6 +6207,7 @@ export namespace Prisma {
       kelas_kereta: Prisma.$Kelas_KeretaPayload<ExtArgs>
       jadwal_kereta: Prisma.$Jadwal_KeretaPayload<ExtArgs>
       transaksi: Prisma.$TransaksiPayload<ExtArgs> | null
+      penumpang: Prisma.$PenumpangPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -6381,6 +6562,7 @@ export namespace Prisma {
     kelas_kereta<T extends Kelas_KeretaDefaultArgs<ExtArgs> = {}>(args?: Subset<T, Kelas_KeretaDefaultArgs<ExtArgs>>): Prisma__Kelas_KeretaClient<$Result.GetResult<Prisma.$Kelas_KeretaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     jadwal_kereta<T extends Jadwal_KeretaDefaultArgs<ExtArgs> = {}>(args?: Subset<T, Jadwal_KeretaDefaultArgs<ExtArgs>>): Prisma__Jadwal_KeretaClient<$Result.GetResult<Prisma.$Jadwal_KeretaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     transaksi<T extends Ticket$transaksiArgs<ExtArgs> = {}>(args?: Subset<T, Ticket$transaksiArgs<ExtArgs>>): Prisma__TransaksiClient<$Result.GetResult<Prisma.$TransaksiPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    penumpang<T extends Ticket$penumpangArgs<ExtArgs> = {}>(args?: Subset<T, Ticket$penumpangArgs<ExtArgs>>): Prisma__PenumpangClient<$Result.GetResult<Prisma.$PenumpangPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6771,6 +6953,25 @@ export namespace Prisma {
   }
 
   /**
+   * Ticket.penumpang
+   */
+  export type Ticket$penumpangArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Penumpang
+     */
+    select?: PenumpangSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Penumpang
+     */
+    omit?: PenumpangOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenumpangInclude<ExtArgs> | null
+    where?: PenumpangWhereInput
+  }
+
+  /**
    * Ticket without action
    */
   export type TicketDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6786,6 +6987,976 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: TicketInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Penumpang
+   */
+
+  export type AggregatePenumpang = {
+    _count: PenumpangCountAggregateOutputType | null
+    _avg: PenumpangAvgAggregateOutputType | null
+    _sum: PenumpangSumAggregateOutputType | null
+    _min: PenumpangMinAggregateOutputType | null
+    _max: PenumpangMaxAggregateOutputType | null
+  }
+
+  export type PenumpangAvgAggregateOutputType = {
+    id: number | null
+    ticket_id: number | null
+  }
+
+  export type PenumpangSumAggregateOutputType = {
+    id: number | null
+    ticket_id: number | null
+  }
+
+  export type PenumpangMinAggregateOutputType = {
+    id: number | null
+    nama: string | null
+    nomor_identitas: string | null
+    nomor_hp: string | null
+    address: string | null
+    ticket_id: number | null
+  }
+
+  export type PenumpangMaxAggregateOutputType = {
+    id: number | null
+    nama: string | null
+    nomor_identitas: string | null
+    nomor_hp: string | null
+    address: string | null
+    ticket_id: number | null
+  }
+
+  export type PenumpangCountAggregateOutputType = {
+    id: number
+    nama: number
+    nomor_identitas: number
+    nomor_hp: number
+    address: number
+    ticket_id: number
+    _all: number
+  }
+
+
+  export type PenumpangAvgAggregateInputType = {
+    id?: true
+    ticket_id?: true
+  }
+
+  export type PenumpangSumAggregateInputType = {
+    id?: true
+    ticket_id?: true
+  }
+
+  export type PenumpangMinAggregateInputType = {
+    id?: true
+    nama?: true
+    nomor_identitas?: true
+    nomor_hp?: true
+    address?: true
+    ticket_id?: true
+  }
+
+  export type PenumpangMaxAggregateInputType = {
+    id?: true
+    nama?: true
+    nomor_identitas?: true
+    nomor_hp?: true
+    address?: true
+    ticket_id?: true
+  }
+
+  export type PenumpangCountAggregateInputType = {
+    id?: true
+    nama?: true
+    nomor_identitas?: true
+    nomor_hp?: true
+    address?: true
+    ticket_id?: true
+    _all?: true
+  }
+
+  export type PenumpangAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Penumpang to aggregate.
+     */
+    where?: PenumpangWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Penumpangs to fetch.
+     */
+    orderBy?: PenumpangOrderByWithRelationInput | PenumpangOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PenumpangWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Penumpangs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Penumpangs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Penumpangs
+    **/
+    _count?: true | PenumpangCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PenumpangAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PenumpangSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PenumpangMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PenumpangMaxAggregateInputType
+  }
+
+  export type GetPenumpangAggregateType<T extends PenumpangAggregateArgs> = {
+        [P in keyof T & keyof AggregatePenumpang]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePenumpang[P]>
+      : GetScalarType<T[P], AggregatePenumpang[P]>
+  }
+
+
+
+
+  export type PenumpangGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PenumpangWhereInput
+    orderBy?: PenumpangOrderByWithAggregationInput | PenumpangOrderByWithAggregationInput[]
+    by: PenumpangScalarFieldEnum[] | PenumpangScalarFieldEnum
+    having?: PenumpangScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PenumpangCountAggregateInputType | true
+    _avg?: PenumpangAvgAggregateInputType
+    _sum?: PenumpangSumAggregateInputType
+    _min?: PenumpangMinAggregateInputType
+    _max?: PenumpangMaxAggregateInputType
+  }
+
+  export type PenumpangGroupByOutputType = {
+    id: number
+    nama: string
+    nomor_identitas: string
+    nomor_hp: string
+    address: string
+    ticket_id: number
+    _count: PenumpangCountAggregateOutputType | null
+    _avg: PenumpangAvgAggregateOutputType | null
+    _sum: PenumpangSumAggregateOutputType | null
+    _min: PenumpangMinAggregateOutputType | null
+    _max: PenumpangMaxAggregateOutputType | null
+  }
+
+  type GetPenumpangGroupByPayload<T extends PenumpangGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PenumpangGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PenumpangGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PenumpangGroupByOutputType[P]>
+            : GetScalarType<T[P], PenumpangGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PenumpangSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nama?: boolean
+    nomor_identitas?: boolean
+    nomor_hp?: boolean
+    address?: boolean
+    ticket_id?: boolean
+    ticket?: boolean | TicketDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["penumpang"]>
+
+
+
+  export type PenumpangSelectScalar = {
+    id?: boolean
+    nama?: boolean
+    nomor_identitas?: boolean
+    nomor_hp?: boolean
+    address?: boolean
+    ticket_id?: boolean
+  }
+
+  export type PenumpangOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nama" | "nomor_identitas" | "nomor_hp" | "address" | "ticket_id", ExtArgs["result"]["penumpang"]>
+  export type PenumpangInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    ticket?: boolean | TicketDefaultArgs<ExtArgs>
+  }
+
+  export type $PenumpangPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Penumpang"
+    objects: {
+      ticket: Prisma.$TicketPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      nama: string
+      nomor_identitas: string
+      nomor_hp: string
+      address: string
+      ticket_id: number
+    }, ExtArgs["result"]["penumpang"]>
+    composites: {}
+  }
+
+  type PenumpangGetPayload<S extends boolean | null | undefined | PenumpangDefaultArgs> = $Result.GetResult<Prisma.$PenumpangPayload, S>
+
+  type PenumpangCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PenumpangFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PenumpangCountAggregateInputType | true
+    }
+
+  export interface PenumpangDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Penumpang'], meta: { name: 'Penumpang' } }
+    /**
+     * Find zero or one Penumpang that matches the filter.
+     * @param {PenumpangFindUniqueArgs} args - Arguments to find a Penumpang
+     * @example
+     * // Get one Penumpang
+     * const penumpang = await prisma.penumpang.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PenumpangFindUniqueArgs>(args: SelectSubset<T, PenumpangFindUniqueArgs<ExtArgs>>): Prisma__PenumpangClient<$Result.GetResult<Prisma.$PenumpangPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Penumpang that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PenumpangFindUniqueOrThrowArgs} args - Arguments to find a Penumpang
+     * @example
+     * // Get one Penumpang
+     * const penumpang = await prisma.penumpang.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PenumpangFindUniqueOrThrowArgs>(args: SelectSubset<T, PenumpangFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PenumpangClient<$Result.GetResult<Prisma.$PenumpangPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Penumpang that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PenumpangFindFirstArgs} args - Arguments to find a Penumpang
+     * @example
+     * // Get one Penumpang
+     * const penumpang = await prisma.penumpang.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PenumpangFindFirstArgs>(args?: SelectSubset<T, PenumpangFindFirstArgs<ExtArgs>>): Prisma__PenumpangClient<$Result.GetResult<Prisma.$PenumpangPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Penumpang that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PenumpangFindFirstOrThrowArgs} args - Arguments to find a Penumpang
+     * @example
+     * // Get one Penumpang
+     * const penumpang = await prisma.penumpang.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PenumpangFindFirstOrThrowArgs>(args?: SelectSubset<T, PenumpangFindFirstOrThrowArgs<ExtArgs>>): Prisma__PenumpangClient<$Result.GetResult<Prisma.$PenumpangPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Penumpangs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PenumpangFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Penumpangs
+     * const penumpangs = await prisma.penumpang.findMany()
+     * 
+     * // Get first 10 Penumpangs
+     * const penumpangs = await prisma.penumpang.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const penumpangWithIdOnly = await prisma.penumpang.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PenumpangFindManyArgs>(args?: SelectSubset<T, PenumpangFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PenumpangPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Penumpang.
+     * @param {PenumpangCreateArgs} args - Arguments to create a Penumpang.
+     * @example
+     * // Create one Penumpang
+     * const Penumpang = await prisma.penumpang.create({
+     *   data: {
+     *     // ... data to create a Penumpang
+     *   }
+     * })
+     * 
+     */
+    create<T extends PenumpangCreateArgs>(args: SelectSubset<T, PenumpangCreateArgs<ExtArgs>>): Prisma__PenumpangClient<$Result.GetResult<Prisma.$PenumpangPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Penumpangs.
+     * @param {PenumpangCreateManyArgs} args - Arguments to create many Penumpangs.
+     * @example
+     * // Create many Penumpangs
+     * const penumpang = await prisma.penumpang.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PenumpangCreateManyArgs>(args?: SelectSubset<T, PenumpangCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Penumpang.
+     * @param {PenumpangDeleteArgs} args - Arguments to delete one Penumpang.
+     * @example
+     * // Delete one Penumpang
+     * const Penumpang = await prisma.penumpang.delete({
+     *   where: {
+     *     // ... filter to delete one Penumpang
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PenumpangDeleteArgs>(args: SelectSubset<T, PenumpangDeleteArgs<ExtArgs>>): Prisma__PenumpangClient<$Result.GetResult<Prisma.$PenumpangPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Penumpang.
+     * @param {PenumpangUpdateArgs} args - Arguments to update one Penumpang.
+     * @example
+     * // Update one Penumpang
+     * const penumpang = await prisma.penumpang.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PenumpangUpdateArgs>(args: SelectSubset<T, PenumpangUpdateArgs<ExtArgs>>): Prisma__PenumpangClient<$Result.GetResult<Prisma.$PenumpangPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Penumpangs.
+     * @param {PenumpangDeleteManyArgs} args - Arguments to filter Penumpangs to delete.
+     * @example
+     * // Delete a few Penumpangs
+     * const { count } = await prisma.penumpang.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PenumpangDeleteManyArgs>(args?: SelectSubset<T, PenumpangDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Penumpangs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PenumpangUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Penumpangs
+     * const penumpang = await prisma.penumpang.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PenumpangUpdateManyArgs>(args: SelectSubset<T, PenumpangUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Penumpang.
+     * @param {PenumpangUpsertArgs} args - Arguments to update or create a Penumpang.
+     * @example
+     * // Update or create a Penumpang
+     * const penumpang = await prisma.penumpang.upsert({
+     *   create: {
+     *     // ... data to create a Penumpang
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Penumpang we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PenumpangUpsertArgs>(args: SelectSubset<T, PenumpangUpsertArgs<ExtArgs>>): Prisma__PenumpangClient<$Result.GetResult<Prisma.$PenumpangPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Penumpangs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PenumpangCountArgs} args - Arguments to filter Penumpangs to count.
+     * @example
+     * // Count the number of Penumpangs
+     * const count = await prisma.penumpang.count({
+     *   where: {
+     *     // ... the filter for the Penumpangs we want to count
+     *   }
+     * })
+    **/
+    count<T extends PenumpangCountArgs>(
+      args?: Subset<T, PenumpangCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PenumpangCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Penumpang.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PenumpangAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PenumpangAggregateArgs>(args: Subset<T, PenumpangAggregateArgs>): Prisma.PrismaPromise<GetPenumpangAggregateType<T>>
+
+    /**
+     * Group by Penumpang.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PenumpangGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PenumpangGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PenumpangGroupByArgs['orderBy'] }
+        : { orderBy?: PenumpangGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PenumpangGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPenumpangGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Penumpang model
+   */
+  readonly fields: PenumpangFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Penumpang.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PenumpangClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    ticket<T extends TicketDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TicketDefaultArgs<ExtArgs>>): Prisma__TicketClient<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Penumpang model
+   */
+  interface PenumpangFieldRefs {
+    readonly id: FieldRef<"Penumpang", 'Int'>
+    readonly nama: FieldRef<"Penumpang", 'String'>
+    readonly nomor_identitas: FieldRef<"Penumpang", 'String'>
+    readonly nomor_hp: FieldRef<"Penumpang", 'String'>
+    readonly address: FieldRef<"Penumpang", 'String'>
+    readonly ticket_id: FieldRef<"Penumpang", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Penumpang findUnique
+   */
+  export type PenumpangFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Penumpang
+     */
+    select?: PenumpangSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Penumpang
+     */
+    omit?: PenumpangOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenumpangInclude<ExtArgs> | null
+    /**
+     * Filter, which Penumpang to fetch.
+     */
+    where: PenumpangWhereUniqueInput
+  }
+
+  /**
+   * Penumpang findUniqueOrThrow
+   */
+  export type PenumpangFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Penumpang
+     */
+    select?: PenumpangSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Penumpang
+     */
+    omit?: PenumpangOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenumpangInclude<ExtArgs> | null
+    /**
+     * Filter, which Penumpang to fetch.
+     */
+    where: PenumpangWhereUniqueInput
+  }
+
+  /**
+   * Penumpang findFirst
+   */
+  export type PenumpangFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Penumpang
+     */
+    select?: PenumpangSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Penumpang
+     */
+    omit?: PenumpangOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenumpangInclude<ExtArgs> | null
+    /**
+     * Filter, which Penumpang to fetch.
+     */
+    where?: PenumpangWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Penumpangs to fetch.
+     */
+    orderBy?: PenumpangOrderByWithRelationInput | PenumpangOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Penumpangs.
+     */
+    cursor?: PenumpangWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Penumpangs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Penumpangs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Penumpangs.
+     */
+    distinct?: PenumpangScalarFieldEnum | PenumpangScalarFieldEnum[]
+  }
+
+  /**
+   * Penumpang findFirstOrThrow
+   */
+  export type PenumpangFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Penumpang
+     */
+    select?: PenumpangSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Penumpang
+     */
+    omit?: PenumpangOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenumpangInclude<ExtArgs> | null
+    /**
+     * Filter, which Penumpang to fetch.
+     */
+    where?: PenumpangWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Penumpangs to fetch.
+     */
+    orderBy?: PenumpangOrderByWithRelationInput | PenumpangOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Penumpangs.
+     */
+    cursor?: PenumpangWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Penumpangs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Penumpangs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Penumpangs.
+     */
+    distinct?: PenumpangScalarFieldEnum | PenumpangScalarFieldEnum[]
+  }
+
+  /**
+   * Penumpang findMany
+   */
+  export type PenumpangFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Penumpang
+     */
+    select?: PenumpangSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Penumpang
+     */
+    omit?: PenumpangOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenumpangInclude<ExtArgs> | null
+    /**
+     * Filter, which Penumpangs to fetch.
+     */
+    where?: PenumpangWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Penumpangs to fetch.
+     */
+    orderBy?: PenumpangOrderByWithRelationInput | PenumpangOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Penumpangs.
+     */
+    cursor?: PenumpangWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Penumpangs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Penumpangs.
+     */
+    skip?: number
+    distinct?: PenumpangScalarFieldEnum | PenumpangScalarFieldEnum[]
+  }
+
+  /**
+   * Penumpang create
+   */
+  export type PenumpangCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Penumpang
+     */
+    select?: PenumpangSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Penumpang
+     */
+    omit?: PenumpangOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenumpangInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Penumpang.
+     */
+    data: XOR<PenumpangCreateInput, PenumpangUncheckedCreateInput>
+  }
+
+  /**
+   * Penumpang createMany
+   */
+  export type PenumpangCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Penumpangs.
+     */
+    data: PenumpangCreateManyInput | PenumpangCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Penumpang update
+   */
+  export type PenumpangUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Penumpang
+     */
+    select?: PenumpangSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Penumpang
+     */
+    omit?: PenumpangOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenumpangInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Penumpang.
+     */
+    data: XOR<PenumpangUpdateInput, PenumpangUncheckedUpdateInput>
+    /**
+     * Choose, which Penumpang to update.
+     */
+    where: PenumpangWhereUniqueInput
+  }
+
+  /**
+   * Penumpang updateMany
+   */
+  export type PenumpangUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Penumpangs.
+     */
+    data: XOR<PenumpangUpdateManyMutationInput, PenumpangUncheckedUpdateManyInput>
+    /**
+     * Filter which Penumpangs to update
+     */
+    where?: PenumpangWhereInput
+  }
+
+  /**
+   * Penumpang upsert
+   */
+  export type PenumpangUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Penumpang
+     */
+    select?: PenumpangSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Penumpang
+     */
+    omit?: PenumpangOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenumpangInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Penumpang to update in case it exists.
+     */
+    where: PenumpangWhereUniqueInput
+    /**
+     * In case the Penumpang found by the `where` argument doesn't exist, create a new Penumpang with this data.
+     */
+    create: XOR<PenumpangCreateInput, PenumpangUncheckedCreateInput>
+    /**
+     * In case the Penumpang was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PenumpangUpdateInput, PenumpangUncheckedUpdateInput>
+  }
+
+  /**
+   * Penumpang delete
+   */
+  export type PenumpangDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Penumpang
+     */
+    select?: PenumpangSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Penumpang
+     */
+    omit?: PenumpangOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenumpangInclude<ExtArgs> | null
+    /**
+     * Filter which Penumpang to delete.
+     */
+    where: PenumpangWhereUniqueInput
+  }
+
+  /**
+   * Penumpang deleteMany
+   */
+  export type PenumpangDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Penumpangs to delete
+     */
+    where?: PenumpangWhereInput
+  }
+
+  /**
+   * Penumpang without action
+   */
+  export type PenumpangDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Penumpang
+     */
+    select?: PenumpangSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Penumpang
+     */
+    omit?: PenumpangOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenumpangInclude<ExtArgs> | null
   }
 
 
@@ -6817,16 +7988,20 @@ export namespace Prisma {
     id: number | null
     total_harga: number | null
     metode_pembayaran_id: number | null
-    status: string | null
+    status: $Enums.order_status | null
     createdAt: Date | null
+    va: string | null
+    nomor_kartu: string | null
   }
 
   export type TransaksiMaxAggregateOutputType = {
     id: number | null
     total_harga: number | null
     metode_pembayaran_id: number | null
-    status: string | null
+    status: $Enums.order_status | null
     createdAt: Date | null
+    va: string | null
+    nomor_kartu: string | null
   }
 
   export type TransaksiCountAggregateOutputType = {
@@ -6835,6 +8010,8 @@ export namespace Prisma {
     metode_pembayaran_id: number
     status: number
     createdAt: number
+    va: number
+    nomor_kartu: number
     _all: number
   }
 
@@ -6857,6 +8034,8 @@ export namespace Prisma {
     metode_pembayaran_id?: true
     status?: true
     createdAt?: true
+    va?: true
+    nomor_kartu?: true
   }
 
   export type TransaksiMaxAggregateInputType = {
@@ -6865,6 +8044,8 @@ export namespace Prisma {
     metode_pembayaran_id?: true
     status?: true
     createdAt?: true
+    va?: true
+    nomor_kartu?: true
   }
 
   export type TransaksiCountAggregateInputType = {
@@ -6873,6 +8054,8 @@ export namespace Prisma {
     metode_pembayaran_id?: true
     status?: true
     createdAt?: true
+    va?: true
+    nomor_kartu?: true
     _all?: true
   }
 
@@ -6966,8 +8149,10 @@ export namespace Prisma {
     id: number
     total_harga: number
     metode_pembayaran_id: number
-    status: string
+    status: $Enums.order_status
     createdAt: Date
+    va: string | null
+    nomor_kartu: string | null
     _count: TransaksiCountAggregateOutputType | null
     _avg: TransaksiAvgAggregateOutputType | null
     _sum: TransaksiSumAggregateOutputType | null
@@ -6995,6 +8180,8 @@ export namespace Prisma {
     metode_pembayaran_id?: boolean
     status?: boolean
     createdAt?: boolean
+    va?: boolean
+    nomor_kartu?: boolean
     tickets?: boolean | Transaksi$ticketsArgs<ExtArgs>
     metode_pembayaran?: boolean | Metode_PembayaranDefaultArgs<ExtArgs>
     _count?: boolean | TransaksiCountOutputTypeDefaultArgs<ExtArgs>
@@ -7008,9 +8195,11 @@ export namespace Prisma {
     metode_pembayaran_id?: boolean
     status?: boolean
     createdAt?: boolean
+    va?: boolean
+    nomor_kartu?: boolean
   }
 
-  export type TransaksiOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "total_harga" | "metode_pembayaran_id" | "status" | "createdAt", ExtArgs["result"]["transaksi"]>
+  export type TransaksiOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "total_harga" | "metode_pembayaran_id" | "status" | "createdAt" | "va" | "nomor_kartu", ExtArgs["result"]["transaksi"]>
   export type TransaksiInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tickets?: boolean | Transaksi$ticketsArgs<ExtArgs>
     metode_pembayaran?: boolean | Metode_PembayaranDefaultArgs<ExtArgs>
@@ -7027,8 +8216,10 @@ export namespace Prisma {
       id: number
       total_harga: number
       metode_pembayaran_id: number
-      status: string
+      status: $Enums.order_status
       createdAt: Date
+      va: string | null
+      nomor_kartu: string | null
     }, ExtArgs["result"]["transaksi"]>
     composites: {}
   }
@@ -7403,8 +8594,10 @@ export namespace Prisma {
     readonly id: FieldRef<"Transaksi", 'Int'>
     readonly total_harga: FieldRef<"Transaksi", 'Float'>
     readonly metode_pembayaran_id: FieldRef<"Transaksi", 'Int'>
-    readonly status: FieldRef<"Transaksi", 'String'>
+    readonly status: FieldRef<"Transaksi", 'order_status'>
     readonly createdAt: FieldRef<"Transaksi", 'DateTime'>
+    readonly va: FieldRef<"Transaksi", 'String'>
+    readonly nomor_kartu: FieldRef<"Transaksi", 'String'>
   }
     
 
@@ -7805,16 +8998,19 @@ export namespace Prisma {
   export type Metode_PembayaranMinAggregateOutputType = {
     id: number | null
     nama: string | null
+    tipe: $Enums.paymentmethod_tipe | null
   }
 
   export type Metode_PembayaranMaxAggregateOutputType = {
     id: number | null
     nama: string | null
+    tipe: $Enums.paymentmethod_tipe | null
   }
 
   export type Metode_PembayaranCountAggregateOutputType = {
     id: number
     nama: number
+    tipe: number
     _all: number
   }
 
@@ -7830,16 +9026,19 @@ export namespace Prisma {
   export type Metode_PembayaranMinAggregateInputType = {
     id?: true
     nama?: true
+    tipe?: true
   }
 
   export type Metode_PembayaranMaxAggregateInputType = {
     id?: true
     nama?: true
+    tipe?: true
   }
 
   export type Metode_PembayaranCountAggregateInputType = {
     id?: true
     nama?: true
+    tipe?: true
     _all?: true
   }
 
@@ -7932,6 +9131,7 @@ export namespace Prisma {
   export type Metode_PembayaranGroupByOutputType = {
     id: number
     nama: string
+    tipe: $Enums.paymentmethod_tipe | null
     _count: Metode_PembayaranCountAggregateOutputType | null
     _avg: Metode_PembayaranAvgAggregateOutputType | null
     _sum: Metode_PembayaranSumAggregateOutputType | null
@@ -7956,6 +9156,7 @@ export namespace Prisma {
   export type Metode_PembayaranSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     nama?: boolean
+    tipe?: boolean
     transaksi_list?: boolean | Metode_Pembayaran$transaksi_listArgs<ExtArgs>
     _count?: boolean | Metode_PembayaranCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["metode_Pembayaran"]>
@@ -7965,9 +9166,10 @@ export namespace Prisma {
   export type Metode_PembayaranSelectScalar = {
     id?: boolean
     nama?: boolean
+    tipe?: boolean
   }
 
-  export type Metode_PembayaranOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nama", ExtArgs["result"]["metode_Pembayaran"]>
+  export type Metode_PembayaranOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nama" | "tipe", ExtArgs["result"]["metode_Pembayaran"]>
   export type Metode_PembayaranInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     transaksi_list?: boolean | Metode_Pembayaran$transaksi_listArgs<ExtArgs>
     _count?: boolean | Metode_PembayaranCountOutputTypeDefaultArgs<ExtArgs>
@@ -7981,6 +9183,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       nama: string
+      tipe: $Enums.paymentmethod_tipe | null
     }, ExtArgs["result"]["metode_Pembayaran"]>
     composites: {}
   }
@@ -8353,6 +9556,7 @@ export namespace Prisma {
   interface Metode_PembayaranFieldRefs {
     readonly id: FieldRef<"Metode_Pembayaran", 'Int'>
     readonly nama: FieldRef<"Metode_Pembayaran", 'String'>
+    readonly tipe: FieldRef<"Metode_Pembayaran", 'paymentmethod_tipe'>
   }
     
 
@@ -8748,6 +9952,7 @@ export namespace Prisma {
     ke_id: number | null
     kelas_kereta_id: number | null
     harga: number | null
+    gerbong_id: number | null
   }
 
   export type Jadwal_KeretaSumAggregateOutputType = {
@@ -8756,6 +9961,7 @@ export namespace Prisma {
     ke_id: number | null
     kelas_kereta_id: number | null
     harga: number | null
+    gerbong_id: number | null
   }
 
   export type Jadwal_KeretaMinAggregateOutputType = {
@@ -8767,6 +9973,7 @@ export namespace Prisma {
     jam_berangkat: string | null
     jam_tiba: string | null
     harga: number | null
+    gerbong_id: number | null
   }
 
   export type Jadwal_KeretaMaxAggregateOutputType = {
@@ -8778,6 +9985,7 @@ export namespace Prisma {
     jam_berangkat: string | null
     jam_tiba: string | null
     harga: number | null
+    gerbong_id: number | null
   }
 
   export type Jadwal_KeretaCountAggregateOutputType = {
@@ -8789,6 +9997,7 @@ export namespace Prisma {
     jam_berangkat: number
     jam_tiba: number
     harga: number
+    gerbong_id: number
     _all: number
   }
 
@@ -8799,6 +10008,7 @@ export namespace Prisma {
     ke_id?: true
     kelas_kereta_id?: true
     harga?: true
+    gerbong_id?: true
   }
 
   export type Jadwal_KeretaSumAggregateInputType = {
@@ -8807,6 +10017,7 @@ export namespace Prisma {
     ke_id?: true
     kelas_kereta_id?: true
     harga?: true
+    gerbong_id?: true
   }
 
   export type Jadwal_KeretaMinAggregateInputType = {
@@ -8818,6 +10029,7 @@ export namespace Prisma {
     jam_berangkat?: true
     jam_tiba?: true
     harga?: true
+    gerbong_id?: true
   }
 
   export type Jadwal_KeretaMaxAggregateInputType = {
@@ -8829,6 +10041,7 @@ export namespace Prisma {
     jam_berangkat?: true
     jam_tiba?: true
     harga?: true
+    gerbong_id?: true
   }
 
   export type Jadwal_KeretaCountAggregateInputType = {
@@ -8840,6 +10053,7 @@ export namespace Prisma {
     jam_berangkat?: true
     jam_tiba?: true
     harga?: true
+    gerbong_id?: true
     _all?: true
   }
 
@@ -8938,6 +10152,7 @@ export namespace Prisma {
     jam_berangkat: string
     jam_tiba: string
     harga: number
+    gerbong_id: number
     _count: Jadwal_KeretaCountAggregateOutputType | null
     _avg: Jadwal_KeretaAvgAggregateOutputType | null
     _sum: Jadwal_KeretaSumAggregateOutputType | null
@@ -8968,10 +10183,12 @@ export namespace Prisma {
     jam_berangkat?: boolean
     jam_tiba?: boolean
     harga?: boolean
+    gerbong_id?: boolean
     dari_stasiun?: boolean | StasiunDefaultArgs<ExtArgs>
     ke_stasiun?: boolean | StasiunDefaultArgs<ExtArgs>
     kelas_kereta?: boolean | Kelas_KeretaDefaultArgs<ExtArgs>
-    Ticket?: boolean | Jadwal_Kereta$TicketArgs<ExtArgs>
+    tickets?: boolean | Jadwal_Kereta$ticketsArgs<ExtArgs>
+    gerbong?: boolean | GerbongDefaultArgs<ExtArgs>
     _count?: boolean | Jadwal_KeretaCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["jadwal_Kereta"]>
 
@@ -8986,14 +10203,16 @@ export namespace Prisma {
     jam_berangkat?: boolean
     jam_tiba?: boolean
     harga?: boolean
+    gerbong_id?: boolean
   }
 
-  export type Jadwal_KeretaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "dari_id" | "ke_id" | "tanggal" | "kelas_kereta_id" | "jam_berangkat" | "jam_tiba" | "harga", ExtArgs["result"]["jadwal_Kereta"]>
+  export type Jadwal_KeretaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "dari_id" | "ke_id" | "tanggal" | "kelas_kereta_id" | "jam_berangkat" | "jam_tiba" | "harga" | "gerbong_id", ExtArgs["result"]["jadwal_Kereta"]>
   export type Jadwal_KeretaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     dari_stasiun?: boolean | StasiunDefaultArgs<ExtArgs>
     ke_stasiun?: boolean | StasiunDefaultArgs<ExtArgs>
     kelas_kereta?: boolean | Kelas_KeretaDefaultArgs<ExtArgs>
-    Ticket?: boolean | Jadwal_Kereta$TicketArgs<ExtArgs>
+    tickets?: boolean | Jadwal_Kereta$ticketsArgs<ExtArgs>
+    gerbong?: boolean | GerbongDefaultArgs<ExtArgs>
     _count?: boolean | Jadwal_KeretaCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -9003,7 +10222,8 @@ export namespace Prisma {
       dari_stasiun: Prisma.$StasiunPayload<ExtArgs>
       ke_stasiun: Prisma.$StasiunPayload<ExtArgs>
       kelas_kereta: Prisma.$Kelas_KeretaPayload<ExtArgs>
-      Ticket: Prisma.$TicketPayload<ExtArgs>[]
+      tickets: Prisma.$TicketPayload<ExtArgs>[]
+      gerbong: Prisma.$GerbongPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -9014,6 +10234,7 @@ export namespace Prisma {
       jam_berangkat: string
       jam_tiba: string
       harga: number
+      gerbong_id: number
     }, ExtArgs["result"]["jadwal_Kereta"]>
     composites: {}
   }
@@ -9357,7 +10578,8 @@ export namespace Prisma {
     dari_stasiun<T extends StasiunDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StasiunDefaultArgs<ExtArgs>>): Prisma__StasiunClient<$Result.GetResult<Prisma.$StasiunPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     ke_stasiun<T extends StasiunDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StasiunDefaultArgs<ExtArgs>>): Prisma__StasiunClient<$Result.GetResult<Prisma.$StasiunPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     kelas_kereta<T extends Kelas_KeretaDefaultArgs<ExtArgs> = {}>(args?: Subset<T, Kelas_KeretaDefaultArgs<ExtArgs>>): Prisma__Kelas_KeretaClient<$Result.GetResult<Prisma.$Kelas_KeretaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    Ticket<T extends Jadwal_Kereta$TicketArgs<ExtArgs> = {}>(args?: Subset<T, Jadwal_Kereta$TicketArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    tickets<T extends Jadwal_Kereta$ticketsArgs<ExtArgs> = {}>(args?: Subset<T, Jadwal_Kereta$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    gerbong<T extends GerbongDefaultArgs<ExtArgs> = {}>(args?: Subset<T, GerbongDefaultArgs<ExtArgs>>): Prisma__GerbongClient<$Result.GetResult<Prisma.$GerbongPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9395,6 +10617,7 @@ export namespace Prisma {
     readonly jam_berangkat: FieldRef<"Jadwal_Kereta", 'String'>
     readonly jam_tiba: FieldRef<"Jadwal_Kereta", 'String'>
     readonly harga: FieldRef<"Jadwal_Kereta", 'Float'>
+    readonly gerbong_id: FieldRef<"Jadwal_Kereta", 'Int'>
   }
     
 
@@ -9730,9 +10953,9 @@ export namespace Prisma {
   }
 
   /**
-   * Jadwal_Kereta.Ticket
+   * Jadwal_Kereta.tickets
    */
-  export type Jadwal_Kereta$TicketArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Jadwal_Kereta$ticketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Ticket
      */
@@ -10776,7 +11999,10 @@ export namespace Prisma {
   export const UserScalarFieldEnum: {
     id: 'id',
     name: 'name',
+    nomor_identitas: 'nomor_identitas',
+    nomor_hp: 'nomor_hp',
     email: 'email',
+    alamat: 'alamat',
     password: 'password',
     role: 'role',
     createdAt: 'createdAt',
@@ -10825,12 +12051,26 @@ export namespace Prisma {
   export type TicketScalarFieldEnum = (typeof TicketScalarFieldEnum)[keyof typeof TicketScalarFieldEnum]
 
 
+  export const PenumpangScalarFieldEnum: {
+    id: 'id',
+    nama: 'nama',
+    nomor_identitas: 'nomor_identitas',
+    nomor_hp: 'nomor_hp',
+    address: 'address',
+    ticket_id: 'ticket_id'
+  };
+
+  export type PenumpangScalarFieldEnum = (typeof PenumpangScalarFieldEnum)[keyof typeof PenumpangScalarFieldEnum]
+
+
   export const TransaksiScalarFieldEnum: {
     id: 'id',
     total_harga: 'total_harga',
     metode_pembayaran_id: 'metode_pembayaran_id',
     status: 'status',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    va: 'va',
+    nomor_kartu: 'nomor_kartu'
   };
 
   export type TransaksiScalarFieldEnum = (typeof TransaksiScalarFieldEnum)[keyof typeof TransaksiScalarFieldEnum]
@@ -10838,7 +12078,8 @@ export namespace Prisma {
 
   export const Metode_PembayaranScalarFieldEnum: {
     id: 'id',
-    nama: 'nama'
+    nama: 'nama',
+    tipe: 'tipe'
   };
 
   export type Metode_PembayaranScalarFieldEnum = (typeof Metode_PembayaranScalarFieldEnum)[keyof typeof Metode_PembayaranScalarFieldEnum]
@@ -10852,7 +12093,8 @@ export namespace Prisma {
     kelas_kereta_id: 'kelas_kereta_id',
     jam_berangkat: 'jam_berangkat',
     jam_tiba: 'jam_tiba',
-    harga: 'harga'
+    harga: 'harga',
+    gerbong_id: 'gerbong_id'
   };
 
   export type Jadwal_KeretaScalarFieldEnum = (typeof Jadwal_KeretaScalarFieldEnum)[keyof typeof Jadwal_KeretaScalarFieldEnum]
@@ -10921,6 +12163,20 @@ export namespace Prisma {
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
     
+
+
+  /**
+   * Reference to a field of type 'order_status'
+   */
+  export type Enumorder_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'order_status'>
+    
+
+
+  /**
+   * Reference to a field of type 'paymentmethod_tipe'
+   */
+  export type Enumpaymentmethod_tipeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'paymentmethod_tipe'>
+    
   /**
    * Deep Input Types
    */
@@ -10932,7 +12188,10 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     id?: IntFilter<"User"> | number
     name?: StringFilter<"User"> | string
+    nomor_identitas?: StringFilter<"User"> | string
+    nomor_hp?: StringFilter<"User"> | string
     email?: StringFilter<"User"> | string
+    alamat?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
     createdAt?: DateTimeFilter<"User"> | Date | string
@@ -10943,7 +12202,10 @@ export namespace Prisma {
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
+    nomor_identitas?: SortOrder
+    nomor_hp?: SortOrder
     email?: SortOrder
+    alamat?: SortOrder
     password?: SortOrder
     role?: SortOrder
     createdAt?: SortOrder
@@ -10953,22 +12215,28 @@ export namespace Prisma {
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: number
-    email?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringFilter<"User"> | string
+    nomor_identitas?: StringFilter<"User"> | string
+    nomor_hp?: StringFilter<"User"> | string
+    email?: StringFilter<"User"> | string
+    alamat?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     tickets?: TicketListRelationFilter
-  }, "id" | "email">
+  }, "id">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
+    nomor_identitas?: SortOrder
+    nomor_hp?: SortOrder
     email?: SortOrder
+    alamat?: SortOrder
     password?: SortOrder
     role?: SortOrder
     createdAt?: SortOrder
@@ -10986,7 +12254,10 @@ export namespace Prisma {
     NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"User"> | number
     name?: StringWithAggregatesFilter<"User"> | string
+    nomor_identitas?: StringWithAggregatesFilter<"User"> | string
+    nomor_hp?: StringWithAggregatesFilter<"User"> | string
     email?: StringWithAggregatesFilter<"User"> | string
+    alamat?: StringWithAggregatesFilter<"User"> | string
     password?: StringWithAggregatesFilter<"User"> | string
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -11050,6 +12321,7 @@ export namespace Prisma {
     kelas_kereta_id?: IntFilter<"Gerbong"> | number
     kelas_kereta?: XOR<Kelas_KeretaRelationFilter, Kelas_KeretaWhereInput>
     kursi_list?: KursiListRelationFilter
+    Jadwal_Kereta?: Jadwal_KeretaListRelationFilter
   }
 
   export type GerbongOrderByWithRelationInput = {
@@ -11058,6 +12330,7 @@ export namespace Prisma {
     kelas_kereta_id?: SortOrder
     kelas_kereta?: Kelas_KeretaOrderByWithRelationInput
     kursi_list?: KursiOrderByRelationAggregateInput
+    Jadwal_Kereta?: Jadwal_KeretaOrderByRelationAggregateInput
   }
 
   export type GerbongWhereUniqueInput = Prisma.AtLeast<{
@@ -11069,6 +12342,7 @@ export namespace Prisma {
     kelas_kereta_id?: IntFilter<"Gerbong"> | number
     kelas_kereta?: XOR<Kelas_KeretaRelationFilter, Kelas_KeretaWhereInput>
     kursi_list?: KursiListRelationFilter
+    Jadwal_Kereta?: Jadwal_KeretaListRelationFilter
   }, "id">
 
   export type GerbongOrderByWithAggregationInput = {
@@ -11157,6 +12431,7 @@ export namespace Prisma {
     kelas_kereta?: XOR<Kelas_KeretaRelationFilter, Kelas_KeretaWhereInput>
     jadwal_kereta?: XOR<Jadwal_KeretaRelationFilter, Jadwal_KeretaWhereInput>
     transaksi?: XOR<TransaksiNullableRelationFilter, TransaksiWhereInput> | null
+    penumpang?: XOR<PenumpangNullableRelationFilter, PenumpangWhereInput> | null
   }
 
   export type TicketOrderByWithRelationInput = {
@@ -11172,6 +12447,7 @@ export namespace Prisma {
     kelas_kereta?: Kelas_KeretaOrderByWithRelationInput
     jadwal_kereta?: Jadwal_KeretaOrderByWithRelationInput
     transaksi?: TransaksiOrderByWithRelationInput
+    penumpang?: PenumpangOrderByWithRelationInput
   }
 
   export type TicketWhereUniqueInput = Prisma.AtLeast<{
@@ -11190,6 +12466,7 @@ export namespace Prisma {
     kelas_kereta?: XOR<Kelas_KeretaRelationFilter, Kelas_KeretaWhereInput>
     jadwal_kereta?: XOR<Jadwal_KeretaRelationFilter, Jadwal_KeretaWhereInput>
     transaksi?: XOR<TransaksiNullableRelationFilter, TransaksiWhereInput> | null
+    penumpang?: XOR<PenumpangNullableRelationFilter, PenumpangWhereInput> | null
   }, "id">
 
   export type TicketOrderByWithAggregationInput = {
@@ -11220,6 +12497,68 @@ export namespace Prisma {
     tanggal?: DateTimeWithAggregatesFilter<"Ticket"> | Date | string
   }
 
+  export type PenumpangWhereInput = {
+    AND?: PenumpangWhereInput | PenumpangWhereInput[]
+    OR?: PenumpangWhereInput[]
+    NOT?: PenumpangWhereInput | PenumpangWhereInput[]
+    id?: IntFilter<"Penumpang"> | number
+    nama?: StringFilter<"Penumpang"> | string
+    nomor_identitas?: StringFilter<"Penumpang"> | string
+    nomor_hp?: StringFilter<"Penumpang"> | string
+    address?: StringFilter<"Penumpang"> | string
+    ticket_id?: IntFilter<"Penumpang"> | number
+    ticket?: XOR<TicketRelationFilter, TicketWhereInput>
+  }
+
+  export type PenumpangOrderByWithRelationInput = {
+    id?: SortOrder
+    nama?: SortOrder
+    nomor_identitas?: SortOrder
+    nomor_hp?: SortOrder
+    address?: SortOrder
+    ticket_id?: SortOrder
+    ticket?: TicketOrderByWithRelationInput
+  }
+
+  export type PenumpangWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    ticket_id?: number
+    AND?: PenumpangWhereInput | PenumpangWhereInput[]
+    OR?: PenumpangWhereInput[]
+    NOT?: PenumpangWhereInput | PenumpangWhereInput[]
+    nama?: StringFilter<"Penumpang"> | string
+    nomor_identitas?: StringFilter<"Penumpang"> | string
+    nomor_hp?: StringFilter<"Penumpang"> | string
+    address?: StringFilter<"Penumpang"> | string
+    ticket?: XOR<TicketRelationFilter, TicketWhereInput>
+  }, "id" | "ticket_id">
+
+  export type PenumpangOrderByWithAggregationInput = {
+    id?: SortOrder
+    nama?: SortOrder
+    nomor_identitas?: SortOrder
+    nomor_hp?: SortOrder
+    address?: SortOrder
+    ticket_id?: SortOrder
+    _count?: PenumpangCountOrderByAggregateInput
+    _avg?: PenumpangAvgOrderByAggregateInput
+    _max?: PenumpangMaxOrderByAggregateInput
+    _min?: PenumpangMinOrderByAggregateInput
+    _sum?: PenumpangSumOrderByAggregateInput
+  }
+
+  export type PenumpangScalarWhereWithAggregatesInput = {
+    AND?: PenumpangScalarWhereWithAggregatesInput | PenumpangScalarWhereWithAggregatesInput[]
+    OR?: PenumpangScalarWhereWithAggregatesInput[]
+    NOT?: PenumpangScalarWhereWithAggregatesInput | PenumpangScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Penumpang"> | number
+    nama?: StringWithAggregatesFilter<"Penumpang"> | string
+    nomor_identitas?: StringWithAggregatesFilter<"Penumpang"> | string
+    nomor_hp?: StringWithAggregatesFilter<"Penumpang"> | string
+    address?: StringWithAggregatesFilter<"Penumpang"> | string
+    ticket_id?: IntWithAggregatesFilter<"Penumpang"> | number
+  }
+
   export type TransaksiWhereInput = {
     AND?: TransaksiWhereInput | TransaksiWhereInput[]
     OR?: TransaksiWhereInput[]
@@ -11227,8 +12566,10 @@ export namespace Prisma {
     id?: IntFilter<"Transaksi"> | number
     total_harga?: FloatFilter<"Transaksi"> | number
     metode_pembayaran_id?: IntFilter<"Transaksi"> | number
-    status?: StringFilter<"Transaksi"> | string
+    status?: Enumorder_statusFilter<"Transaksi"> | $Enums.order_status
     createdAt?: DateTimeFilter<"Transaksi"> | Date | string
+    va?: StringNullableFilter<"Transaksi"> | string | null
+    nomor_kartu?: StringNullableFilter<"Transaksi"> | string | null
     tickets?: TicketListRelationFilter
     metode_pembayaran?: XOR<Metode_PembayaranRelationFilter, Metode_PembayaranWhereInput>
   }
@@ -11239,6 +12580,8 @@ export namespace Prisma {
     metode_pembayaran_id?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
+    va?: SortOrderInput | SortOrder
+    nomor_kartu?: SortOrderInput | SortOrder
     tickets?: TicketOrderByRelationAggregateInput
     metode_pembayaran?: Metode_PembayaranOrderByWithRelationInput
   }
@@ -11250,8 +12593,10 @@ export namespace Prisma {
     NOT?: TransaksiWhereInput | TransaksiWhereInput[]
     total_harga?: FloatFilter<"Transaksi"> | number
     metode_pembayaran_id?: IntFilter<"Transaksi"> | number
-    status?: StringFilter<"Transaksi"> | string
+    status?: Enumorder_statusFilter<"Transaksi"> | $Enums.order_status
     createdAt?: DateTimeFilter<"Transaksi"> | Date | string
+    va?: StringNullableFilter<"Transaksi"> | string | null
+    nomor_kartu?: StringNullableFilter<"Transaksi"> | string | null
     tickets?: TicketListRelationFilter
     metode_pembayaran?: XOR<Metode_PembayaranRelationFilter, Metode_PembayaranWhereInput>
   }, "id">
@@ -11262,6 +12607,8 @@ export namespace Prisma {
     metode_pembayaran_id?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
+    va?: SortOrderInput | SortOrder
+    nomor_kartu?: SortOrderInput | SortOrder
     _count?: TransaksiCountOrderByAggregateInput
     _avg?: TransaksiAvgOrderByAggregateInput
     _max?: TransaksiMaxOrderByAggregateInput
@@ -11276,8 +12623,10 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"Transaksi"> | number
     total_harga?: FloatWithAggregatesFilter<"Transaksi"> | number
     metode_pembayaran_id?: IntWithAggregatesFilter<"Transaksi"> | number
-    status?: StringWithAggregatesFilter<"Transaksi"> | string
+    status?: Enumorder_statusWithAggregatesFilter<"Transaksi"> | $Enums.order_status
     createdAt?: DateTimeWithAggregatesFilter<"Transaksi"> | Date | string
+    va?: StringNullableWithAggregatesFilter<"Transaksi"> | string | null
+    nomor_kartu?: StringNullableWithAggregatesFilter<"Transaksi"> | string | null
   }
 
   export type Metode_PembayaranWhereInput = {
@@ -11286,12 +12635,14 @@ export namespace Prisma {
     NOT?: Metode_PembayaranWhereInput | Metode_PembayaranWhereInput[]
     id?: IntFilter<"Metode_Pembayaran"> | number
     nama?: StringFilter<"Metode_Pembayaran"> | string
+    tipe?: Enumpaymentmethod_tipeNullableFilter<"Metode_Pembayaran"> | $Enums.paymentmethod_tipe | null
     transaksi_list?: TransaksiListRelationFilter
   }
 
   export type Metode_PembayaranOrderByWithRelationInput = {
     id?: SortOrder
     nama?: SortOrder
+    tipe?: SortOrderInput | SortOrder
     transaksi_list?: TransaksiOrderByRelationAggregateInput
   }
 
@@ -11301,12 +12652,14 @@ export namespace Prisma {
     OR?: Metode_PembayaranWhereInput[]
     NOT?: Metode_PembayaranWhereInput | Metode_PembayaranWhereInput[]
     nama?: StringFilter<"Metode_Pembayaran"> | string
+    tipe?: Enumpaymentmethod_tipeNullableFilter<"Metode_Pembayaran"> | $Enums.paymentmethod_tipe | null
     transaksi_list?: TransaksiListRelationFilter
   }, "id">
 
   export type Metode_PembayaranOrderByWithAggregationInput = {
     id?: SortOrder
     nama?: SortOrder
+    tipe?: SortOrderInput | SortOrder
     _count?: Metode_PembayaranCountOrderByAggregateInput
     _avg?: Metode_PembayaranAvgOrderByAggregateInput
     _max?: Metode_PembayaranMaxOrderByAggregateInput
@@ -11320,6 +12673,7 @@ export namespace Prisma {
     NOT?: Metode_PembayaranScalarWhereWithAggregatesInput | Metode_PembayaranScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Metode_Pembayaran"> | number
     nama?: StringWithAggregatesFilter<"Metode_Pembayaran"> | string
+    tipe?: Enumpaymentmethod_tipeNullableWithAggregatesFilter<"Metode_Pembayaran"> | $Enums.paymentmethod_tipe | null
   }
 
   export type Jadwal_KeretaWhereInput = {
@@ -11334,10 +12688,12 @@ export namespace Prisma {
     jam_berangkat?: StringFilter<"Jadwal_Kereta"> | string
     jam_tiba?: StringFilter<"Jadwal_Kereta"> | string
     harga?: FloatFilter<"Jadwal_Kereta"> | number
+    gerbong_id?: IntFilter<"Jadwal_Kereta"> | number
     dari_stasiun?: XOR<StasiunRelationFilter, StasiunWhereInput>
     ke_stasiun?: XOR<StasiunRelationFilter, StasiunWhereInput>
     kelas_kereta?: XOR<Kelas_KeretaRelationFilter, Kelas_KeretaWhereInput>
-    Ticket?: TicketListRelationFilter
+    tickets?: TicketListRelationFilter
+    gerbong?: XOR<GerbongRelationFilter, GerbongWhereInput>
   }
 
   export type Jadwal_KeretaOrderByWithRelationInput = {
@@ -11349,10 +12705,12 @@ export namespace Prisma {
     jam_berangkat?: SortOrder
     jam_tiba?: SortOrder
     harga?: SortOrder
+    gerbong_id?: SortOrder
     dari_stasiun?: StasiunOrderByWithRelationInput
     ke_stasiun?: StasiunOrderByWithRelationInput
     kelas_kereta?: Kelas_KeretaOrderByWithRelationInput
-    Ticket?: TicketOrderByRelationAggregateInput
+    tickets?: TicketOrderByRelationAggregateInput
+    gerbong?: GerbongOrderByWithRelationInput
   }
 
   export type Jadwal_KeretaWhereUniqueInput = Prisma.AtLeast<{
@@ -11367,10 +12725,12 @@ export namespace Prisma {
     jam_berangkat?: StringFilter<"Jadwal_Kereta"> | string
     jam_tiba?: StringFilter<"Jadwal_Kereta"> | string
     harga?: FloatFilter<"Jadwal_Kereta"> | number
+    gerbong_id?: IntFilter<"Jadwal_Kereta"> | number
     dari_stasiun?: XOR<StasiunRelationFilter, StasiunWhereInput>
     ke_stasiun?: XOR<StasiunRelationFilter, StasiunWhereInput>
     kelas_kereta?: XOR<Kelas_KeretaRelationFilter, Kelas_KeretaWhereInput>
-    Ticket?: TicketListRelationFilter
+    tickets?: TicketListRelationFilter
+    gerbong?: XOR<GerbongRelationFilter, GerbongWhereInput>
   }, "id">
 
   export type Jadwal_KeretaOrderByWithAggregationInput = {
@@ -11382,6 +12742,7 @@ export namespace Prisma {
     jam_berangkat?: SortOrder
     jam_tiba?: SortOrder
     harga?: SortOrder
+    gerbong_id?: SortOrder
     _count?: Jadwal_KeretaCountOrderByAggregateInput
     _avg?: Jadwal_KeretaAvgOrderByAggregateInput
     _max?: Jadwal_KeretaMaxOrderByAggregateInput
@@ -11401,6 +12762,7 @@ export namespace Prisma {
     jam_berangkat?: StringWithAggregatesFilter<"Jadwal_Kereta"> | string
     jam_tiba?: StringWithAggregatesFilter<"Jadwal_Kereta"> | string
     harga?: FloatWithAggregatesFilter<"Jadwal_Kereta"> | number
+    gerbong_id?: IntWithAggregatesFilter<"Jadwal_Kereta"> | number
   }
 
   export type StasiunWhereInput = {
@@ -11455,7 +12817,10 @@ export namespace Prisma {
 
   export type UserCreateInput = {
     name: string
+    nomor_identitas: string
+    nomor_hp: string
     email: string
+    alamat: string
     password: string
     role: $Enums.Role
     createdAt?: Date | string
@@ -11466,7 +12831,10 @@ export namespace Prisma {
   export type UserUncheckedCreateInput = {
     id?: number
     name: string
+    nomor_identitas: string
+    nomor_hp: string
     email: string
+    alamat: string
     password: string
     role: $Enums.Role
     createdAt?: Date | string
@@ -11476,7 +12844,10 @@ export namespace Prisma {
 
   export type UserUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
+    nomor_identitas?: StringFieldUpdateOperationsInput | string
+    nomor_hp?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    alamat?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11487,7 +12858,10 @@ export namespace Prisma {
   export type UserUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    nomor_identitas?: StringFieldUpdateOperationsInput | string
+    nomor_hp?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    alamat?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11498,7 +12872,10 @@ export namespace Prisma {
   export type UserCreateManyInput = {
     id?: number
     name: string
+    nomor_identitas: string
+    nomor_hp: string
     email: string
+    alamat: string
     password: string
     role: $Enums.Role
     createdAt?: Date | string
@@ -11507,7 +12884,10 @@ export namespace Prisma {
 
   export type UserUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
+    nomor_identitas?: StringFieldUpdateOperationsInput | string
+    nomor_hp?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    alamat?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11517,7 +12897,10 @@ export namespace Prisma {
   export type UserUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    nomor_identitas?: StringFieldUpdateOperationsInput | string
+    nomor_hp?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    alamat?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11572,6 +12955,7 @@ export namespace Prisma {
     nama: string
     kelas_kereta: Kelas_KeretaCreateNestedOneWithoutGerbong_listInput
     kursi_list?: KursiCreateNestedManyWithoutGerbongInput
+    Jadwal_Kereta?: Jadwal_KeretaCreateNestedManyWithoutGerbongInput
   }
 
   export type GerbongUncheckedCreateInput = {
@@ -11579,12 +12963,14 @@ export namespace Prisma {
     nama: string
     kelas_kereta_id: number
     kursi_list?: KursiUncheckedCreateNestedManyWithoutGerbongInput
+    Jadwal_Kereta?: Jadwal_KeretaUncheckedCreateNestedManyWithoutGerbongInput
   }
 
   export type GerbongUpdateInput = {
     nama?: StringFieldUpdateOperationsInput | string
     kelas_kereta?: Kelas_KeretaUpdateOneRequiredWithoutGerbong_listNestedInput
     kursi_list?: KursiUpdateManyWithoutGerbongNestedInput
+    Jadwal_Kereta?: Jadwal_KeretaUpdateManyWithoutGerbongNestedInput
   }
 
   export type GerbongUncheckedUpdateInput = {
@@ -11592,6 +12978,7 @@ export namespace Prisma {
     nama?: StringFieldUpdateOperationsInput | string
     kelas_kereta_id?: IntFieldUpdateOperationsInput | number
     kursi_list?: KursiUncheckedUpdateManyWithoutGerbongNestedInput
+    Jadwal_Kereta?: Jadwal_KeretaUncheckedUpdateManyWithoutGerbongNestedInput
   }
 
   export type GerbongCreateManyInput = {
@@ -11657,8 +13044,9 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutTicketsInput
     kursi: KursiCreateNestedOneWithoutTicketsInput
     kelas_kereta: Kelas_KeretaCreateNestedOneWithoutTicketsInput
-    jadwal_kereta: Jadwal_KeretaCreateNestedOneWithoutTicketInput
+    jadwal_kereta: Jadwal_KeretaCreateNestedOneWithoutTicketsInput
     transaksi?: TransaksiCreateNestedOneWithoutTicketsInput
+    penumpang?: PenumpangCreateNestedOneWithoutTicketInput
   }
 
   export type TicketUncheckedCreateInput = {
@@ -11669,6 +13057,7 @@ export namespace Prisma {
     jadwal_kereta_id: number
     transaksi_id?: number | null
     tanggal: Date | string
+    penumpang?: PenumpangUncheckedCreateNestedOneWithoutTicketInput
   }
 
   export type TicketUpdateInput = {
@@ -11676,8 +13065,9 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutTicketsNestedInput
     kursi?: KursiUpdateOneRequiredWithoutTicketsNestedInput
     kelas_kereta?: Kelas_KeretaUpdateOneRequiredWithoutTicketsNestedInput
-    jadwal_kereta?: Jadwal_KeretaUpdateOneRequiredWithoutTicketNestedInput
+    jadwal_kereta?: Jadwal_KeretaUpdateOneRequiredWithoutTicketsNestedInput
     transaksi?: TransaksiUpdateOneWithoutTicketsNestedInput
+    penumpang?: PenumpangUpdateOneWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateInput = {
@@ -11688,6 +13078,7 @@ export namespace Prisma {
     jadwal_kereta_id?: IntFieldUpdateOperationsInput | number
     transaksi_id?: NullableIntFieldUpdateOperationsInput | number | null
     tanggal?: DateTimeFieldUpdateOperationsInput | Date | string
+    penumpang?: PenumpangUncheckedUpdateOneWithoutTicketNestedInput
   }
 
   export type TicketCreateManyInput = {
@@ -11714,10 +13105,71 @@ export namespace Prisma {
     tanggal?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PenumpangCreateInput = {
+    nama: string
+    nomor_identitas: string
+    nomor_hp: string
+    address: string
+    ticket: TicketCreateNestedOneWithoutPenumpangInput
+  }
+
+  export type PenumpangUncheckedCreateInput = {
+    id?: number
+    nama: string
+    nomor_identitas: string
+    nomor_hp: string
+    address: string
+    ticket_id: number
+  }
+
+  export type PenumpangUpdateInput = {
+    nama?: StringFieldUpdateOperationsInput | string
+    nomor_identitas?: StringFieldUpdateOperationsInput | string
+    nomor_hp?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    ticket?: TicketUpdateOneRequiredWithoutPenumpangNestedInput
+  }
+
+  export type PenumpangUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nama?: StringFieldUpdateOperationsInput | string
+    nomor_identitas?: StringFieldUpdateOperationsInput | string
+    nomor_hp?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    ticket_id?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type PenumpangCreateManyInput = {
+    id?: number
+    nama: string
+    nomor_identitas: string
+    nomor_hp: string
+    address: string
+    ticket_id: number
+  }
+
+  export type PenumpangUpdateManyMutationInput = {
+    nama?: StringFieldUpdateOperationsInput | string
+    nomor_identitas?: StringFieldUpdateOperationsInput | string
+    nomor_hp?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PenumpangUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nama?: StringFieldUpdateOperationsInput | string
+    nomor_identitas?: StringFieldUpdateOperationsInput | string
+    nomor_hp?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    ticket_id?: IntFieldUpdateOperationsInput | number
+  }
+
   export type TransaksiCreateInput = {
     total_harga: number
-    status: string
+    status: $Enums.order_status
     createdAt?: Date | string
+    va?: string | null
+    nomor_kartu?: string | null
     tickets?: TicketCreateNestedManyWithoutTransaksiInput
     metode_pembayaran: Metode_PembayaranCreateNestedOneWithoutTransaksi_listInput
   }
@@ -11726,15 +13178,19 @@ export namespace Prisma {
     id?: number
     total_harga: number
     metode_pembayaran_id: number
-    status: string
+    status: $Enums.order_status
     createdAt?: Date | string
+    va?: string | null
+    nomor_kartu?: string | null
     tickets?: TicketUncheckedCreateNestedManyWithoutTransaksiInput
   }
 
   export type TransaksiUpdateInput = {
     total_harga?: FloatFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
+    status?: Enumorder_statusFieldUpdateOperationsInput | $Enums.order_status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    va?: NullableStringFieldUpdateOperationsInput | string | null
+    nomor_kartu?: NullableStringFieldUpdateOperationsInput | string | null
     tickets?: TicketUpdateManyWithoutTransaksiNestedInput
     metode_pembayaran?: Metode_PembayaranUpdateOneRequiredWithoutTransaksi_listNestedInput
   }
@@ -11743,8 +13199,10 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     total_harga?: FloatFieldUpdateOperationsInput | number
     metode_pembayaran_id?: IntFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
+    status?: Enumorder_statusFieldUpdateOperationsInput | $Enums.order_status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    va?: NullableStringFieldUpdateOperationsInput | string | null
+    nomor_kartu?: NullableStringFieldUpdateOperationsInput | string | null
     tickets?: TicketUncheckedUpdateManyWithoutTransaksiNestedInput
   }
 
@@ -11752,58 +13210,71 @@ export namespace Prisma {
     id?: number
     total_harga: number
     metode_pembayaran_id: number
-    status: string
+    status: $Enums.order_status
     createdAt?: Date | string
+    va?: string | null
+    nomor_kartu?: string | null
   }
 
   export type TransaksiUpdateManyMutationInput = {
     total_harga?: FloatFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
+    status?: Enumorder_statusFieldUpdateOperationsInput | $Enums.order_status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    va?: NullableStringFieldUpdateOperationsInput | string | null
+    nomor_kartu?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TransaksiUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     total_harga?: FloatFieldUpdateOperationsInput | number
     metode_pembayaran_id?: IntFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
+    status?: Enumorder_statusFieldUpdateOperationsInput | $Enums.order_status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    va?: NullableStringFieldUpdateOperationsInput | string | null
+    nomor_kartu?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type Metode_PembayaranCreateInput = {
     nama: string
+    tipe?: $Enums.paymentmethod_tipe | null
     transaksi_list?: TransaksiCreateNestedManyWithoutMetode_pembayaranInput
   }
 
   export type Metode_PembayaranUncheckedCreateInput = {
     id?: number
     nama: string
+    tipe?: $Enums.paymentmethod_tipe | null
     transaksi_list?: TransaksiUncheckedCreateNestedManyWithoutMetode_pembayaranInput
   }
 
   export type Metode_PembayaranUpdateInput = {
     nama?: StringFieldUpdateOperationsInput | string
+    tipe?: NullableEnumpaymentmethod_tipeFieldUpdateOperationsInput | $Enums.paymentmethod_tipe | null
     transaksi_list?: TransaksiUpdateManyWithoutMetode_pembayaranNestedInput
   }
 
   export type Metode_PembayaranUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     nama?: StringFieldUpdateOperationsInput | string
+    tipe?: NullableEnumpaymentmethod_tipeFieldUpdateOperationsInput | $Enums.paymentmethod_tipe | null
     transaksi_list?: TransaksiUncheckedUpdateManyWithoutMetode_pembayaranNestedInput
   }
 
   export type Metode_PembayaranCreateManyInput = {
     id?: number
     nama: string
+    tipe?: $Enums.paymentmethod_tipe | null
   }
 
   export type Metode_PembayaranUpdateManyMutationInput = {
     nama?: StringFieldUpdateOperationsInput | string
+    tipe?: NullableEnumpaymentmethod_tipeFieldUpdateOperationsInput | $Enums.paymentmethod_tipe | null
   }
 
   export type Metode_PembayaranUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     nama?: StringFieldUpdateOperationsInput | string
+    tipe?: NullableEnumpaymentmethod_tipeFieldUpdateOperationsInput | $Enums.paymentmethod_tipe | null
   }
 
   export type Jadwal_KeretaCreateInput = {
@@ -11814,7 +13285,8 @@ export namespace Prisma {
     dari_stasiun: StasiunCreateNestedOneWithoutJadwal_berangkatInput
     ke_stasiun: StasiunCreateNestedOneWithoutJadwal_tujuanInput
     kelas_kereta: Kelas_KeretaCreateNestedOneWithoutJadwal_keretaInput
-    Ticket?: TicketCreateNestedManyWithoutJadwal_keretaInput
+    tickets?: TicketCreateNestedManyWithoutJadwal_keretaInput
+    gerbong: GerbongCreateNestedOneWithoutJadwal_KeretaInput
   }
 
   export type Jadwal_KeretaUncheckedCreateInput = {
@@ -11826,7 +13298,8 @@ export namespace Prisma {
     jam_berangkat: string
     jam_tiba: string
     harga: number
-    Ticket?: TicketUncheckedCreateNestedManyWithoutJadwal_keretaInput
+    gerbong_id: number
+    tickets?: TicketUncheckedCreateNestedManyWithoutJadwal_keretaInput
   }
 
   export type Jadwal_KeretaUpdateInput = {
@@ -11837,7 +13310,8 @@ export namespace Prisma {
     dari_stasiun?: StasiunUpdateOneRequiredWithoutJadwal_berangkatNestedInput
     ke_stasiun?: StasiunUpdateOneRequiredWithoutJadwal_tujuanNestedInput
     kelas_kereta?: Kelas_KeretaUpdateOneRequiredWithoutJadwal_keretaNestedInput
-    Ticket?: TicketUpdateManyWithoutJadwal_keretaNestedInput
+    tickets?: TicketUpdateManyWithoutJadwal_keretaNestedInput
+    gerbong?: GerbongUpdateOneRequiredWithoutJadwal_KeretaNestedInput
   }
 
   export type Jadwal_KeretaUncheckedUpdateInput = {
@@ -11849,7 +13323,8 @@ export namespace Prisma {
     jam_berangkat?: StringFieldUpdateOperationsInput | string
     jam_tiba?: StringFieldUpdateOperationsInput | string
     harga?: FloatFieldUpdateOperationsInput | number
-    Ticket?: TicketUncheckedUpdateManyWithoutJadwal_keretaNestedInput
+    gerbong_id?: IntFieldUpdateOperationsInput | number
+    tickets?: TicketUncheckedUpdateManyWithoutJadwal_keretaNestedInput
   }
 
   export type Jadwal_KeretaCreateManyInput = {
@@ -11861,6 +13336,7 @@ export namespace Prisma {
     jam_berangkat: string
     jam_tiba: string
     harga: number
+    gerbong_id: number
   }
 
   export type Jadwal_KeretaUpdateManyMutationInput = {
@@ -11879,6 +13355,7 @@ export namespace Prisma {
     jam_berangkat?: StringFieldUpdateOperationsInput | string
     jam_tiba?: StringFieldUpdateOperationsInput | string
     harga?: FloatFieldUpdateOperationsInput | number
+    gerbong_id?: IntFieldUpdateOperationsInput | number
   }
 
   export type StasiunCreateInput = {
@@ -11984,7 +13461,10 @@ export namespace Prisma {
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    nomor_identitas?: SortOrder
+    nomor_hp?: SortOrder
     email?: SortOrder
+    alamat?: SortOrder
     password?: SortOrder
     role?: SortOrder
     createdAt?: SortOrder
@@ -11998,7 +13478,10 @@ export namespace Prisma {
   export type UserMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    nomor_identitas?: SortOrder
+    nomor_hp?: SortOrder
     email?: SortOrder
+    alamat?: SortOrder
     password?: SortOrder
     role?: SortOrder
     createdAt?: SortOrder
@@ -12008,7 +13491,10 @@ export namespace Prisma {
   export type UserMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    nomor_identitas?: SortOrder
+    nomor_hp?: SortOrder
     email?: SortOrder
+    alamat?: SortOrder
     password?: SortOrder
     role?: SortOrder
     createdAt?: SortOrder
@@ -12226,6 +13712,11 @@ export namespace Prisma {
     isNot?: TransaksiWhereInput | null
   }
 
+  export type PenumpangNullableRelationFilter = {
+    is?: PenumpangWhereInput | null
+    isNot?: PenumpangWhereInput | null
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -12295,6 +13786,48 @@ export namespace Prisma {
     _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
+  export type TicketRelationFilter = {
+    is?: TicketWhereInput
+    isNot?: TicketWhereInput
+  }
+
+  export type PenumpangCountOrderByAggregateInput = {
+    id?: SortOrder
+    nama?: SortOrder
+    nomor_identitas?: SortOrder
+    nomor_hp?: SortOrder
+    address?: SortOrder
+    ticket_id?: SortOrder
+  }
+
+  export type PenumpangAvgOrderByAggregateInput = {
+    id?: SortOrder
+    ticket_id?: SortOrder
+  }
+
+  export type PenumpangMaxOrderByAggregateInput = {
+    id?: SortOrder
+    nama?: SortOrder
+    nomor_identitas?: SortOrder
+    nomor_hp?: SortOrder
+    address?: SortOrder
+    ticket_id?: SortOrder
+  }
+
+  export type PenumpangMinOrderByAggregateInput = {
+    id?: SortOrder
+    nama?: SortOrder
+    nomor_identitas?: SortOrder
+    nomor_hp?: SortOrder
+    address?: SortOrder
+    ticket_id?: SortOrder
+  }
+
+  export type PenumpangSumOrderByAggregateInput = {
+    id?: SortOrder
+    ticket_id?: SortOrder
+  }
+
   export type FloatFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[]
@@ -12304,6 +13837,27 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type Enumorder_statusFilter<$PrismaModel = never> = {
+    equals?: $Enums.order_status | Enumorder_statusFieldRefInput<$PrismaModel>
+    in?: $Enums.order_status[]
+    notIn?: $Enums.order_status[]
+    not?: NestedEnumorder_statusFilter<$PrismaModel> | $Enums.order_status
+  }
+
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
   export type Metode_PembayaranRelationFilter = {
@@ -12317,6 +13871,8 @@ export namespace Prisma {
     metode_pembayaran_id?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
+    va?: SortOrder
+    nomor_kartu?: SortOrder
   }
 
   export type TransaksiAvgOrderByAggregateInput = {
@@ -12331,6 +13887,8 @@ export namespace Prisma {
     metode_pembayaran_id?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
+    va?: SortOrder
+    nomor_kartu?: SortOrder
   }
 
   export type TransaksiMinOrderByAggregateInput = {
@@ -12339,6 +13897,8 @@ export namespace Prisma {
     metode_pembayaran_id?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
+    va?: SortOrder
+    nomor_kartu?: SortOrder
   }
 
   export type TransaksiSumOrderByAggregateInput = {
@@ -12363,6 +13923,40 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type Enumorder_statusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.order_status | Enumorder_statusFieldRefInput<$PrismaModel>
+    in?: $Enums.order_status[]
+    notIn?: $Enums.order_status[]
+    not?: NestedEnumorder_statusWithAggregatesFilter<$PrismaModel> | $Enums.order_status
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumorder_statusFilter<$PrismaModel>
+    _max?: NestedEnumorder_statusFilter<$PrismaModel>
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type Enumpaymentmethod_tipeNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.paymentmethod_tipe | Enumpaymentmethod_tipeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.paymentmethod_tipe[] | null
+    notIn?: $Enums.paymentmethod_tipe[] | null
+    not?: NestedEnumpaymentmethod_tipeNullableFilter<$PrismaModel> | $Enums.paymentmethod_tipe | null
+  }
+
   export type TransaksiListRelationFilter = {
     every?: TransaksiWhereInput
     some?: TransaksiWhereInput
@@ -12376,6 +13970,7 @@ export namespace Prisma {
   export type Metode_PembayaranCountOrderByAggregateInput = {
     id?: SortOrder
     nama?: SortOrder
+    tipe?: SortOrder
   }
 
   export type Metode_PembayaranAvgOrderByAggregateInput = {
@@ -12385,15 +13980,27 @@ export namespace Prisma {
   export type Metode_PembayaranMaxOrderByAggregateInput = {
     id?: SortOrder
     nama?: SortOrder
+    tipe?: SortOrder
   }
 
   export type Metode_PembayaranMinOrderByAggregateInput = {
     id?: SortOrder
     nama?: SortOrder
+    tipe?: SortOrder
   }
 
   export type Metode_PembayaranSumOrderByAggregateInput = {
     id?: SortOrder
+  }
+
+  export type Enumpaymentmethod_tipeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.paymentmethod_tipe | Enumpaymentmethod_tipeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.paymentmethod_tipe[] | null
+    notIn?: $Enums.paymentmethod_tipe[] | null
+    not?: NestedEnumpaymentmethod_tipeNullableWithAggregatesFilter<$PrismaModel> | $Enums.paymentmethod_tipe | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumpaymentmethod_tipeNullableFilter<$PrismaModel>
+    _max?: NestedEnumpaymentmethod_tipeNullableFilter<$PrismaModel>
   }
 
   export type StasiunRelationFilter = {
@@ -12410,6 +14017,7 @@ export namespace Prisma {
     jam_berangkat?: SortOrder
     jam_tiba?: SortOrder
     harga?: SortOrder
+    gerbong_id?: SortOrder
   }
 
   export type Jadwal_KeretaAvgOrderByAggregateInput = {
@@ -12418,6 +14026,7 @@ export namespace Prisma {
     ke_id?: SortOrder
     kelas_kereta_id?: SortOrder
     harga?: SortOrder
+    gerbong_id?: SortOrder
   }
 
   export type Jadwal_KeretaMaxOrderByAggregateInput = {
@@ -12429,6 +14038,7 @@ export namespace Prisma {
     jam_berangkat?: SortOrder
     jam_tiba?: SortOrder
     harga?: SortOrder
+    gerbong_id?: SortOrder
   }
 
   export type Jadwal_KeretaMinOrderByAggregateInput = {
@@ -12440,6 +14050,7 @@ export namespace Prisma {
     jam_berangkat?: SortOrder
     jam_tiba?: SortOrder
     harga?: SortOrder
+    gerbong_id?: SortOrder
   }
 
   export type Jadwal_KeretaSumOrderByAggregateInput = {
@@ -12448,6 +14059,7 @@ export namespace Prisma {
     ke_id?: SortOrder
     kelas_kereta_id?: SortOrder
     harga?: SortOrder
+    gerbong_id?: SortOrder
   }
 
   export type StasiunCountOrderByAggregateInput = {
@@ -12677,11 +14289,25 @@ export namespace Prisma {
     connect?: KursiWhereUniqueInput | KursiWhereUniqueInput[]
   }
 
+  export type Jadwal_KeretaCreateNestedManyWithoutGerbongInput = {
+    create?: XOR<Jadwal_KeretaCreateWithoutGerbongInput, Jadwal_KeretaUncheckedCreateWithoutGerbongInput> | Jadwal_KeretaCreateWithoutGerbongInput[] | Jadwal_KeretaUncheckedCreateWithoutGerbongInput[]
+    connectOrCreate?: Jadwal_KeretaCreateOrConnectWithoutGerbongInput | Jadwal_KeretaCreateOrConnectWithoutGerbongInput[]
+    createMany?: Jadwal_KeretaCreateManyGerbongInputEnvelope
+    connect?: Jadwal_KeretaWhereUniqueInput | Jadwal_KeretaWhereUniqueInput[]
+  }
+
   export type KursiUncheckedCreateNestedManyWithoutGerbongInput = {
     create?: XOR<KursiCreateWithoutGerbongInput, KursiUncheckedCreateWithoutGerbongInput> | KursiCreateWithoutGerbongInput[] | KursiUncheckedCreateWithoutGerbongInput[]
     connectOrCreate?: KursiCreateOrConnectWithoutGerbongInput | KursiCreateOrConnectWithoutGerbongInput[]
     createMany?: KursiCreateManyGerbongInputEnvelope
     connect?: KursiWhereUniqueInput | KursiWhereUniqueInput[]
+  }
+
+  export type Jadwal_KeretaUncheckedCreateNestedManyWithoutGerbongInput = {
+    create?: XOR<Jadwal_KeretaCreateWithoutGerbongInput, Jadwal_KeretaUncheckedCreateWithoutGerbongInput> | Jadwal_KeretaCreateWithoutGerbongInput[] | Jadwal_KeretaUncheckedCreateWithoutGerbongInput[]
+    connectOrCreate?: Jadwal_KeretaCreateOrConnectWithoutGerbongInput | Jadwal_KeretaCreateOrConnectWithoutGerbongInput[]
+    createMany?: Jadwal_KeretaCreateManyGerbongInputEnvelope
+    connect?: Jadwal_KeretaWhereUniqueInput | Jadwal_KeretaWhereUniqueInput[]
   }
 
   export type Kelas_KeretaUpdateOneRequiredWithoutGerbong_listNestedInput = {
@@ -12706,6 +14332,20 @@ export namespace Prisma {
     deleteMany?: KursiScalarWhereInput | KursiScalarWhereInput[]
   }
 
+  export type Jadwal_KeretaUpdateManyWithoutGerbongNestedInput = {
+    create?: XOR<Jadwal_KeretaCreateWithoutGerbongInput, Jadwal_KeretaUncheckedCreateWithoutGerbongInput> | Jadwal_KeretaCreateWithoutGerbongInput[] | Jadwal_KeretaUncheckedCreateWithoutGerbongInput[]
+    connectOrCreate?: Jadwal_KeretaCreateOrConnectWithoutGerbongInput | Jadwal_KeretaCreateOrConnectWithoutGerbongInput[]
+    upsert?: Jadwal_KeretaUpsertWithWhereUniqueWithoutGerbongInput | Jadwal_KeretaUpsertWithWhereUniqueWithoutGerbongInput[]
+    createMany?: Jadwal_KeretaCreateManyGerbongInputEnvelope
+    set?: Jadwal_KeretaWhereUniqueInput | Jadwal_KeretaWhereUniqueInput[]
+    disconnect?: Jadwal_KeretaWhereUniqueInput | Jadwal_KeretaWhereUniqueInput[]
+    delete?: Jadwal_KeretaWhereUniqueInput | Jadwal_KeretaWhereUniqueInput[]
+    connect?: Jadwal_KeretaWhereUniqueInput | Jadwal_KeretaWhereUniqueInput[]
+    update?: Jadwal_KeretaUpdateWithWhereUniqueWithoutGerbongInput | Jadwal_KeretaUpdateWithWhereUniqueWithoutGerbongInput[]
+    updateMany?: Jadwal_KeretaUpdateManyWithWhereWithoutGerbongInput | Jadwal_KeretaUpdateManyWithWhereWithoutGerbongInput[]
+    deleteMany?: Jadwal_KeretaScalarWhereInput | Jadwal_KeretaScalarWhereInput[]
+  }
+
   export type KursiUncheckedUpdateManyWithoutGerbongNestedInput = {
     create?: XOR<KursiCreateWithoutGerbongInput, KursiUncheckedCreateWithoutGerbongInput> | KursiCreateWithoutGerbongInput[] | KursiUncheckedCreateWithoutGerbongInput[]
     connectOrCreate?: KursiCreateOrConnectWithoutGerbongInput | KursiCreateOrConnectWithoutGerbongInput[]
@@ -12718,6 +14358,20 @@ export namespace Prisma {
     update?: KursiUpdateWithWhereUniqueWithoutGerbongInput | KursiUpdateWithWhereUniqueWithoutGerbongInput[]
     updateMany?: KursiUpdateManyWithWhereWithoutGerbongInput | KursiUpdateManyWithWhereWithoutGerbongInput[]
     deleteMany?: KursiScalarWhereInput | KursiScalarWhereInput[]
+  }
+
+  export type Jadwal_KeretaUncheckedUpdateManyWithoutGerbongNestedInput = {
+    create?: XOR<Jadwal_KeretaCreateWithoutGerbongInput, Jadwal_KeretaUncheckedCreateWithoutGerbongInput> | Jadwal_KeretaCreateWithoutGerbongInput[] | Jadwal_KeretaUncheckedCreateWithoutGerbongInput[]
+    connectOrCreate?: Jadwal_KeretaCreateOrConnectWithoutGerbongInput | Jadwal_KeretaCreateOrConnectWithoutGerbongInput[]
+    upsert?: Jadwal_KeretaUpsertWithWhereUniqueWithoutGerbongInput | Jadwal_KeretaUpsertWithWhereUniqueWithoutGerbongInput[]
+    createMany?: Jadwal_KeretaCreateManyGerbongInputEnvelope
+    set?: Jadwal_KeretaWhereUniqueInput | Jadwal_KeretaWhereUniqueInput[]
+    disconnect?: Jadwal_KeretaWhereUniqueInput | Jadwal_KeretaWhereUniqueInput[]
+    delete?: Jadwal_KeretaWhereUniqueInput | Jadwal_KeretaWhereUniqueInput[]
+    connect?: Jadwal_KeretaWhereUniqueInput | Jadwal_KeretaWhereUniqueInput[]
+    update?: Jadwal_KeretaUpdateWithWhereUniqueWithoutGerbongInput | Jadwal_KeretaUpdateWithWhereUniqueWithoutGerbongInput[]
+    updateMany?: Jadwal_KeretaUpdateManyWithWhereWithoutGerbongInput | Jadwal_KeretaUpdateManyWithWhereWithoutGerbongInput[]
+    deleteMany?: Jadwal_KeretaScalarWhereInput | Jadwal_KeretaScalarWhereInput[]
   }
 
   export type GerbongCreateNestedOneWithoutKursi_listInput = {
@@ -12794,9 +14448,9 @@ export namespace Prisma {
     connect?: Kelas_KeretaWhereUniqueInput
   }
 
-  export type Jadwal_KeretaCreateNestedOneWithoutTicketInput = {
-    create?: XOR<Jadwal_KeretaCreateWithoutTicketInput, Jadwal_KeretaUncheckedCreateWithoutTicketInput>
-    connectOrCreate?: Jadwal_KeretaCreateOrConnectWithoutTicketInput
+  export type Jadwal_KeretaCreateNestedOneWithoutTicketsInput = {
+    create?: XOR<Jadwal_KeretaCreateWithoutTicketsInput, Jadwal_KeretaUncheckedCreateWithoutTicketsInput>
+    connectOrCreate?: Jadwal_KeretaCreateOrConnectWithoutTicketsInput
     connect?: Jadwal_KeretaWhereUniqueInput
   }
 
@@ -12804,6 +14458,18 @@ export namespace Prisma {
     create?: XOR<TransaksiCreateWithoutTicketsInput, TransaksiUncheckedCreateWithoutTicketsInput>
     connectOrCreate?: TransaksiCreateOrConnectWithoutTicketsInput
     connect?: TransaksiWhereUniqueInput
+  }
+
+  export type PenumpangCreateNestedOneWithoutTicketInput = {
+    create?: XOR<PenumpangCreateWithoutTicketInput, PenumpangUncheckedCreateWithoutTicketInput>
+    connectOrCreate?: PenumpangCreateOrConnectWithoutTicketInput
+    connect?: PenumpangWhereUniqueInput
+  }
+
+  export type PenumpangUncheckedCreateNestedOneWithoutTicketInput = {
+    create?: XOR<PenumpangCreateWithoutTicketInput, PenumpangUncheckedCreateWithoutTicketInput>
+    connectOrCreate?: PenumpangCreateOrConnectWithoutTicketInput
+    connect?: PenumpangWhereUniqueInput
   }
 
   export type UserUpdateOneRequiredWithoutTicketsNestedInput = {
@@ -12830,12 +14496,12 @@ export namespace Prisma {
     update?: XOR<XOR<Kelas_KeretaUpdateToOneWithWhereWithoutTicketsInput, Kelas_KeretaUpdateWithoutTicketsInput>, Kelas_KeretaUncheckedUpdateWithoutTicketsInput>
   }
 
-  export type Jadwal_KeretaUpdateOneRequiredWithoutTicketNestedInput = {
-    create?: XOR<Jadwal_KeretaCreateWithoutTicketInput, Jadwal_KeretaUncheckedCreateWithoutTicketInput>
-    connectOrCreate?: Jadwal_KeretaCreateOrConnectWithoutTicketInput
-    upsert?: Jadwal_KeretaUpsertWithoutTicketInput
+  export type Jadwal_KeretaUpdateOneRequiredWithoutTicketsNestedInput = {
+    create?: XOR<Jadwal_KeretaCreateWithoutTicketsInput, Jadwal_KeretaUncheckedCreateWithoutTicketsInput>
+    connectOrCreate?: Jadwal_KeretaCreateOrConnectWithoutTicketsInput
+    upsert?: Jadwal_KeretaUpsertWithoutTicketsInput
     connect?: Jadwal_KeretaWhereUniqueInput
-    update?: XOR<XOR<Jadwal_KeretaUpdateToOneWithWhereWithoutTicketInput, Jadwal_KeretaUpdateWithoutTicketInput>, Jadwal_KeretaUncheckedUpdateWithoutTicketInput>
+    update?: XOR<XOR<Jadwal_KeretaUpdateToOneWithWhereWithoutTicketsInput, Jadwal_KeretaUpdateWithoutTicketsInput>, Jadwal_KeretaUncheckedUpdateWithoutTicketsInput>
   }
 
   export type TransaksiUpdateOneWithoutTicketsNestedInput = {
@@ -12848,12 +14514,46 @@ export namespace Prisma {
     update?: XOR<XOR<TransaksiUpdateToOneWithWhereWithoutTicketsInput, TransaksiUpdateWithoutTicketsInput>, TransaksiUncheckedUpdateWithoutTicketsInput>
   }
 
+  export type PenumpangUpdateOneWithoutTicketNestedInput = {
+    create?: XOR<PenumpangCreateWithoutTicketInput, PenumpangUncheckedCreateWithoutTicketInput>
+    connectOrCreate?: PenumpangCreateOrConnectWithoutTicketInput
+    upsert?: PenumpangUpsertWithoutTicketInput
+    disconnect?: PenumpangWhereInput | boolean
+    delete?: PenumpangWhereInput | boolean
+    connect?: PenumpangWhereUniqueInput
+    update?: XOR<XOR<PenumpangUpdateToOneWithWhereWithoutTicketInput, PenumpangUpdateWithoutTicketInput>, PenumpangUncheckedUpdateWithoutTicketInput>
+  }
+
   export type NullableIntFieldUpdateOperationsInput = {
     set?: number | null
     increment?: number
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type PenumpangUncheckedUpdateOneWithoutTicketNestedInput = {
+    create?: XOR<PenumpangCreateWithoutTicketInput, PenumpangUncheckedCreateWithoutTicketInput>
+    connectOrCreate?: PenumpangCreateOrConnectWithoutTicketInput
+    upsert?: PenumpangUpsertWithoutTicketInput
+    disconnect?: PenumpangWhereInput | boolean
+    delete?: PenumpangWhereInput | boolean
+    connect?: PenumpangWhereUniqueInput
+    update?: XOR<XOR<PenumpangUpdateToOneWithWhereWithoutTicketInput, PenumpangUpdateWithoutTicketInput>, PenumpangUncheckedUpdateWithoutTicketInput>
+  }
+
+  export type TicketCreateNestedOneWithoutPenumpangInput = {
+    create?: XOR<TicketCreateWithoutPenumpangInput, TicketUncheckedCreateWithoutPenumpangInput>
+    connectOrCreate?: TicketCreateOrConnectWithoutPenumpangInput
+    connect?: TicketWhereUniqueInput
+  }
+
+  export type TicketUpdateOneRequiredWithoutPenumpangNestedInput = {
+    create?: XOR<TicketCreateWithoutPenumpangInput, TicketUncheckedCreateWithoutPenumpangInput>
+    connectOrCreate?: TicketCreateOrConnectWithoutPenumpangInput
+    upsert?: TicketUpsertWithoutPenumpangInput
+    connect?: TicketWhereUniqueInput
+    update?: XOR<XOR<TicketUpdateToOneWithWhereWithoutPenumpangInput, TicketUpdateWithoutPenumpangInput>, TicketUncheckedUpdateWithoutPenumpangInput>
   }
 
   export type TicketCreateNestedManyWithoutTransaksiInput = {
@@ -12882,6 +14582,14 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type Enumorder_statusFieldUpdateOperationsInput = {
+    set?: $Enums.order_status
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
   }
 
   export type TicketUpdateManyWithoutTransaksiNestedInput = {
@@ -12932,6 +14640,10 @@ export namespace Prisma {
     connectOrCreate?: TransaksiCreateOrConnectWithoutMetode_pembayaranInput | TransaksiCreateOrConnectWithoutMetode_pembayaranInput[]
     createMany?: TransaksiCreateManyMetode_pembayaranInputEnvelope
     connect?: TransaksiWhereUniqueInput | TransaksiWhereUniqueInput[]
+  }
+
+  export type NullableEnumpaymentmethod_tipeFieldUpdateOperationsInput = {
+    set?: $Enums.paymentmethod_tipe | null
   }
 
   export type TransaksiUpdateManyWithoutMetode_pembayaranNestedInput = {
@@ -12987,6 +14699,12 @@ export namespace Prisma {
     connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
   }
 
+  export type GerbongCreateNestedOneWithoutJadwal_KeretaInput = {
+    create?: XOR<GerbongCreateWithoutJadwal_KeretaInput, GerbongUncheckedCreateWithoutJadwal_KeretaInput>
+    connectOrCreate?: GerbongCreateOrConnectWithoutJadwal_KeretaInput
+    connect?: GerbongWhereUniqueInput
+  }
+
   export type TicketUncheckedCreateNestedManyWithoutJadwal_keretaInput = {
     create?: XOR<TicketCreateWithoutJadwal_keretaInput, TicketUncheckedCreateWithoutJadwal_keretaInput> | TicketCreateWithoutJadwal_keretaInput[] | TicketUncheckedCreateWithoutJadwal_keretaInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutJadwal_keretaInput | TicketCreateOrConnectWithoutJadwal_keretaInput[]
@@ -13030,6 +14748,14 @@ export namespace Prisma {
     update?: TicketUpdateWithWhereUniqueWithoutJadwal_keretaInput | TicketUpdateWithWhereUniqueWithoutJadwal_keretaInput[]
     updateMany?: TicketUpdateManyWithWhereWithoutJadwal_keretaInput | TicketUpdateManyWithWhereWithoutJadwal_keretaInput[]
     deleteMany?: TicketScalarWhereInput | TicketScalarWhereInput[]
+  }
+
+  export type GerbongUpdateOneRequiredWithoutJadwal_KeretaNestedInput = {
+    create?: XOR<GerbongCreateWithoutJadwal_KeretaInput, GerbongUncheckedCreateWithoutJadwal_KeretaInput>
+    connectOrCreate?: GerbongCreateOrConnectWithoutJadwal_KeretaInput
+    upsert?: GerbongUpsertWithoutJadwal_KeretaInput
+    connect?: GerbongWhereUniqueInput
+    update?: XOR<XOR<GerbongUpdateToOneWithWhereWithoutJadwal_KeretaInput, GerbongUpdateWithoutJadwal_KeretaInput>, GerbongUncheckedUpdateWithoutJadwal_KeretaInput>
   }
 
   export type TicketUncheckedUpdateManyWithoutJadwal_keretaNestedInput = {
@@ -13279,6 +15005,27 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedEnumorder_statusFilter<$PrismaModel = never> = {
+    equals?: $Enums.order_status | Enumorder_statusFieldRefInput<$PrismaModel>
+    in?: $Enums.order_status[]
+    notIn?: $Enums.order_status[]
+    not?: NestedEnumorder_statusFilter<$PrismaModel> | $Enums.order_status
+  }
+
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[]
@@ -13295,12 +15042,57 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type NestedEnumorder_statusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.order_status | Enumorder_statusFieldRefInput<$PrismaModel>
+    in?: $Enums.order_status[]
+    notIn?: $Enums.order_status[]
+    not?: NestedEnumorder_statusWithAggregatesFilter<$PrismaModel> | $Enums.order_status
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumorder_statusFilter<$PrismaModel>
+    _max?: NestedEnumorder_statusFilter<$PrismaModel>
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumpaymentmethod_tipeNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.paymentmethod_tipe | Enumpaymentmethod_tipeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.paymentmethod_tipe[] | null
+    notIn?: $Enums.paymentmethod_tipe[] | null
+    not?: NestedEnumpaymentmethod_tipeNullableFilter<$PrismaModel> | $Enums.paymentmethod_tipe | null
+  }
+
+  export type NestedEnumpaymentmethod_tipeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.paymentmethod_tipe | Enumpaymentmethod_tipeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.paymentmethod_tipe[] | null
+    notIn?: $Enums.paymentmethod_tipe[] | null
+    not?: NestedEnumpaymentmethod_tipeNullableWithAggregatesFilter<$PrismaModel> | $Enums.paymentmethod_tipe | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumpaymentmethod_tipeNullableFilter<$PrismaModel>
+    _max?: NestedEnumpaymentmethod_tipeNullableFilter<$PrismaModel>
+  }
+
   export type TicketCreateWithoutUserInput = {
     tanggal: Date | string
     kursi: KursiCreateNestedOneWithoutTicketsInput
     kelas_kereta: Kelas_KeretaCreateNestedOneWithoutTicketsInput
-    jadwal_kereta: Jadwal_KeretaCreateNestedOneWithoutTicketInput
+    jadwal_kereta: Jadwal_KeretaCreateNestedOneWithoutTicketsInput
     transaksi?: TransaksiCreateNestedOneWithoutTicketsInput
+    penumpang?: PenumpangCreateNestedOneWithoutTicketInput
   }
 
   export type TicketUncheckedCreateWithoutUserInput = {
@@ -13310,6 +15102,7 @@ export namespace Prisma {
     jadwal_kereta_id: number
     transaksi_id?: number | null
     tanggal: Date | string
+    penumpang?: PenumpangUncheckedCreateNestedOneWithoutTicketInput
   }
 
   export type TicketCreateOrConnectWithoutUserInput = {
@@ -13354,12 +15147,14 @@ export namespace Prisma {
   export type GerbongCreateWithoutKelas_keretaInput = {
     nama: string
     kursi_list?: KursiCreateNestedManyWithoutGerbongInput
+    Jadwal_Kereta?: Jadwal_KeretaCreateNestedManyWithoutGerbongInput
   }
 
   export type GerbongUncheckedCreateWithoutKelas_keretaInput = {
     id?: number
     nama: string
     kursi_list?: KursiUncheckedCreateNestedManyWithoutGerbongInput
+    Jadwal_Kereta?: Jadwal_KeretaUncheckedCreateNestedManyWithoutGerbongInput
   }
 
   export type GerbongCreateOrConnectWithoutKelas_keretaInput = {
@@ -13376,8 +15171,9 @@ export namespace Prisma {
     tanggal: Date | string
     user: UserCreateNestedOneWithoutTicketsInput
     kursi: KursiCreateNestedOneWithoutTicketsInput
-    jadwal_kereta: Jadwal_KeretaCreateNestedOneWithoutTicketInput
+    jadwal_kereta: Jadwal_KeretaCreateNestedOneWithoutTicketsInput
     transaksi?: TransaksiCreateNestedOneWithoutTicketsInput
+    penumpang?: PenumpangCreateNestedOneWithoutTicketInput
   }
 
   export type TicketUncheckedCreateWithoutKelas_keretaInput = {
@@ -13387,6 +15183,7 @@ export namespace Prisma {
     jadwal_kereta_id: number
     transaksi_id?: number | null
     tanggal: Date | string
+    penumpang?: PenumpangUncheckedCreateNestedOneWithoutTicketInput
   }
 
   export type TicketCreateOrConnectWithoutKelas_keretaInput = {
@@ -13406,7 +15203,8 @@ export namespace Prisma {
     harga: number
     dari_stasiun: StasiunCreateNestedOneWithoutJadwal_berangkatInput
     ke_stasiun: StasiunCreateNestedOneWithoutJadwal_tujuanInput
-    Ticket?: TicketCreateNestedManyWithoutJadwal_keretaInput
+    tickets?: TicketCreateNestedManyWithoutJadwal_keretaInput
+    gerbong: GerbongCreateNestedOneWithoutJadwal_KeretaInput
   }
 
   export type Jadwal_KeretaUncheckedCreateWithoutKelas_keretaInput = {
@@ -13417,7 +15215,8 @@ export namespace Prisma {
     jam_berangkat: string
     jam_tiba: string
     harga: number
-    Ticket?: TicketUncheckedCreateNestedManyWithoutJadwal_keretaInput
+    gerbong_id: number
+    tickets?: TicketUncheckedCreateNestedManyWithoutJadwal_keretaInput
   }
 
   export type Jadwal_KeretaCreateOrConnectWithoutKelas_keretaInput = {
@@ -13499,6 +15298,7 @@ export namespace Prisma {
     jam_berangkat?: StringFilter<"Jadwal_Kereta"> | string
     jam_tiba?: StringFilter<"Jadwal_Kereta"> | string
     harga?: FloatFilter<"Jadwal_Kereta"> | number
+    gerbong_id?: IntFilter<"Jadwal_Kereta"> | number
   }
 
   export type Kelas_KeretaCreateWithoutGerbong_listInput = {
@@ -13537,6 +15337,39 @@ export namespace Prisma {
 
   export type KursiCreateManyGerbongInputEnvelope = {
     data: KursiCreateManyGerbongInput | KursiCreateManyGerbongInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type Jadwal_KeretaCreateWithoutGerbongInput = {
+    tanggal?: Date | string
+    jam_berangkat: string
+    jam_tiba: string
+    harga: number
+    dari_stasiun: StasiunCreateNestedOneWithoutJadwal_berangkatInput
+    ke_stasiun: StasiunCreateNestedOneWithoutJadwal_tujuanInput
+    kelas_kereta: Kelas_KeretaCreateNestedOneWithoutJadwal_keretaInput
+    tickets?: TicketCreateNestedManyWithoutJadwal_keretaInput
+  }
+
+  export type Jadwal_KeretaUncheckedCreateWithoutGerbongInput = {
+    id?: number
+    dari_id: number
+    ke_id: number
+    tanggal?: Date | string
+    kelas_kereta_id: number
+    jam_berangkat: string
+    jam_tiba: string
+    harga: number
+    tickets?: TicketUncheckedCreateNestedManyWithoutJadwal_keretaInput
+  }
+
+  export type Jadwal_KeretaCreateOrConnectWithoutGerbongInput = {
+    where: Jadwal_KeretaWhereUniqueInput
+    create: XOR<Jadwal_KeretaCreateWithoutGerbongInput, Jadwal_KeretaUncheckedCreateWithoutGerbongInput>
+  }
+
+  export type Jadwal_KeretaCreateManyGerbongInputEnvelope = {
+    data: Jadwal_KeretaCreateManyGerbongInput | Jadwal_KeretaCreateManyGerbongInput[]
     skipDuplicates?: boolean
   }
 
@@ -13589,15 +15422,33 @@ export namespace Prisma {
     gerbong_id?: IntFilter<"Kursi"> | number
   }
 
+  export type Jadwal_KeretaUpsertWithWhereUniqueWithoutGerbongInput = {
+    where: Jadwal_KeretaWhereUniqueInput
+    update: XOR<Jadwal_KeretaUpdateWithoutGerbongInput, Jadwal_KeretaUncheckedUpdateWithoutGerbongInput>
+    create: XOR<Jadwal_KeretaCreateWithoutGerbongInput, Jadwal_KeretaUncheckedCreateWithoutGerbongInput>
+  }
+
+  export type Jadwal_KeretaUpdateWithWhereUniqueWithoutGerbongInput = {
+    where: Jadwal_KeretaWhereUniqueInput
+    data: XOR<Jadwal_KeretaUpdateWithoutGerbongInput, Jadwal_KeretaUncheckedUpdateWithoutGerbongInput>
+  }
+
+  export type Jadwal_KeretaUpdateManyWithWhereWithoutGerbongInput = {
+    where: Jadwal_KeretaScalarWhereInput
+    data: XOR<Jadwal_KeretaUpdateManyMutationInput, Jadwal_KeretaUncheckedUpdateManyWithoutGerbongInput>
+  }
+
   export type GerbongCreateWithoutKursi_listInput = {
     nama: string
     kelas_kereta: Kelas_KeretaCreateNestedOneWithoutGerbong_listInput
+    Jadwal_Kereta?: Jadwal_KeretaCreateNestedManyWithoutGerbongInput
   }
 
   export type GerbongUncheckedCreateWithoutKursi_listInput = {
     id?: number
     nama: string
     kelas_kereta_id: number
+    Jadwal_Kereta?: Jadwal_KeretaUncheckedCreateNestedManyWithoutGerbongInput
   }
 
   export type GerbongCreateOrConnectWithoutKursi_listInput = {
@@ -13609,8 +15460,9 @@ export namespace Prisma {
     tanggal: Date | string
     user: UserCreateNestedOneWithoutTicketsInput
     kelas_kereta: Kelas_KeretaCreateNestedOneWithoutTicketsInput
-    jadwal_kereta: Jadwal_KeretaCreateNestedOneWithoutTicketInput
+    jadwal_kereta: Jadwal_KeretaCreateNestedOneWithoutTicketsInput
     transaksi?: TransaksiCreateNestedOneWithoutTicketsInput
+    penumpang?: PenumpangCreateNestedOneWithoutTicketInput
   }
 
   export type TicketUncheckedCreateWithoutKursiInput = {
@@ -13620,6 +15472,7 @@ export namespace Prisma {
     jadwal_kereta_id: number
     transaksi_id?: number | null
     tanggal: Date | string
+    penumpang?: PenumpangUncheckedCreateNestedOneWithoutTicketInput
   }
 
   export type TicketCreateOrConnectWithoutKursiInput = {
@@ -13646,12 +15499,14 @@ export namespace Prisma {
   export type GerbongUpdateWithoutKursi_listInput = {
     nama?: StringFieldUpdateOperationsInput | string
     kelas_kereta?: Kelas_KeretaUpdateOneRequiredWithoutGerbong_listNestedInput
+    Jadwal_Kereta?: Jadwal_KeretaUpdateManyWithoutGerbongNestedInput
   }
 
   export type GerbongUncheckedUpdateWithoutKursi_listInput = {
     id?: IntFieldUpdateOperationsInput | number
     nama?: StringFieldUpdateOperationsInput | string
     kelas_kereta_id?: IntFieldUpdateOperationsInput | number
+    Jadwal_Kereta?: Jadwal_KeretaUncheckedUpdateManyWithoutGerbongNestedInput
   }
 
   export type TicketUpsertWithWhereUniqueWithoutKursiInput = {
@@ -13672,7 +15527,10 @@ export namespace Prisma {
 
   export type UserCreateWithoutTicketsInput = {
     name: string
+    nomor_identitas: string
+    nomor_hp: string
     email: string
+    alamat: string
     password: string
     role: $Enums.Role
     createdAt?: Date | string
@@ -13682,7 +15540,10 @@ export namespace Prisma {
   export type UserUncheckedCreateWithoutTicketsInput = {
     id?: number
     name: string
+    nomor_identitas: string
+    nomor_hp: string
     email: string
+    alamat: string
     password: string
     role: $Enums.Role
     createdAt?: Date | string
@@ -13728,7 +15589,7 @@ export namespace Prisma {
     create: XOR<Kelas_KeretaCreateWithoutTicketsInput, Kelas_KeretaUncheckedCreateWithoutTicketsInput>
   }
 
-  export type Jadwal_KeretaCreateWithoutTicketInput = {
+  export type Jadwal_KeretaCreateWithoutTicketsInput = {
     tanggal?: Date | string
     jam_berangkat: string
     jam_tiba: string
@@ -13736,9 +15597,10 @@ export namespace Prisma {
     dari_stasiun: StasiunCreateNestedOneWithoutJadwal_berangkatInput
     ke_stasiun: StasiunCreateNestedOneWithoutJadwal_tujuanInput
     kelas_kereta: Kelas_KeretaCreateNestedOneWithoutJadwal_keretaInput
+    gerbong: GerbongCreateNestedOneWithoutJadwal_KeretaInput
   }
 
-  export type Jadwal_KeretaUncheckedCreateWithoutTicketInput = {
+  export type Jadwal_KeretaUncheckedCreateWithoutTicketsInput = {
     id?: number
     dari_id: number
     ke_id: number
@@ -13747,17 +15609,20 @@ export namespace Prisma {
     jam_berangkat: string
     jam_tiba: string
     harga: number
+    gerbong_id: number
   }
 
-  export type Jadwal_KeretaCreateOrConnectWithoutTicketInput = {
+  export type Jadwal_KeretaCreateOrConnectWithoutTicketsInput = {
     where: Jadwal_KeretaWhereUniqueInput
-    create: XOR<Jadwal_KeretaCreateWithoutTicketInput, Jadwal_KeretaUncheckedCreateWithoutTicketInput>
+    create: XOR<Jadwal_KeretaCreateWithoutTicketsInput, Jadwal_KeretaUncheckedCreateWithoutTicketsInput>
   }
 
   export type TransaksiCreateWithoutTicketsInput = {
     total_harga: number
-    status: string
+    status: $Enums.order_status
     createdAt?: Date | string
+    va?: string | null
+    nomor_kartu?: string | null
     metode_pembayaran: Metode_PembayaranCreateNestedOneWithoutTransaksi_listInput
   }
 
@@ -13765,13 +15630,35 @@ export namespace Prisma {
     id?: number
     total_harga: number
     metode_pembayaran_id: number
-    status: string
+    status: $Enums.order_status
     createdAt?: Date | string
+    va?: string | null
+    nomor_kartu?: string | null
   }
 
   export type TransaksiCreateOrConnectWithoutTicketsInput = {
     where: TransaksiWhereUniqueInput
     create: XOR<TransaksiCreateWithoutTicketsInput, TransaksiUncheckedCreateWithoutTicketsInput>
+  }
+
+  export type PenumpangCreateWithoutTicketInput = {
+    nama: string
+    nomor_identitas: string
+    nomor_hp: string
+    address: string
+  }
+
+  export type PenumpangUncheckedCreateWithoutTicketInput = {
+    id?: number
+    nama: string
+    nomor_identitas: string
+    nomor_hp: string
+    address: string
+  }
+
+  export type PenumpangCreateOrConnectWithoutTicketInput = {
+    where: PenumpangWhereUniqueInput
+    create: XOR<PenumpangCreateWithoutTicketInput, PenumpangUncheckedCreateWithoutTicketInput>
   }
 
   export type UserUpsertWithoutTicketsInput = {
@@ -13787,7 +15674,10 @@ export namespace Prisma {
 
   export type UserUpdateWithoutTicketsInput = {
     name?: StringFieldUpdateOperationsInput | string
+    nomor_identitas?: StringFieldUpdateOperationsInput | string
+    nomor_hp?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    alamat?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13797,7 +15687,10 @@ export namespace Prisma {
   export type UserUncheckedUpdateWithoutTicketsInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    nomor_identitas?: StringFieldUpdateOperationsInput | string
+    nomor_hp?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    alamat?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13850,18 +15743,18 @@ export namespace Prisma {
     jadwal_kereta?: Jadwal_KeretaUncheckedUpdateManyWithoutKelas_keretaNestedInput
   }
 
-  export type Jadwal_KeretaUpsertWithoutTicketInput = {
-    update: XOR<Jadwal_KeretaUpdateWithoutTicketInput, Jadwal_KeretaUncheckedUpdateWithoutTicketInput>
-    create: XOR<Jadwal_KeretaCreateWithoutTicketInput, Jadwal_KeretaUncheckedCreateWithoutTicketInput>
+  export type Jadwal_KeretaUpsertWithoutTicketsInput = {
+    update: XOR<Jadwal_KeretaUpdateWithoutTicketsInput, Jadwal_KeretaUncheckedUpdateWithoutTicketsInput>
+    create: XOR<Jadwal_KeretaCreateWithoutTicketsInput, Jadwal_KeretaUncheckedCreateWithoutTicketsInput>
     where?: Jadwal_KeretaWhereInput
   }
 
-  export type Jadwal_KeretaUpdateToOneWithWhereWithoutTicketInput = {
+  export type Jadwal_KeretaUpdateToOneWithWhereWithoutTicketsInput = {
     where?: Jadwal_KeretaWhereInput
-    data: XOR<Jadwal_KeretaUpdateWithoutTicketInput, Jadwal_KeretaUncheckedUpdateWithoutTicketInput>
+    data: XOR<Jadwal_KeretaUpdateWithoutTicketsInput, Jadwal_KeretaUncheckedUpdateWithoutTicketsInput>
   }
 
-  export type Jadwal_KeretaUpdateWithoutTicketInput = {
+  export type Jadwal_KeretaUpdateWithoutTicketsInput = {
     tanggal?: DateTimeFieldUpdateOperationsInput | Date | string
     jam_berangkat?: StringFieldUpdateOperationsInput | string
     jam_tiba?: StringFieldUpdateOperationsInput | string
@@ -13869,9 +15762,10 @@ export namespace Prisma {
     dari_stasiun?: StasiunUpdateOneRequiredWithoutJadwal_berangkatNestedInput
     ke_stasiun?: StasiunUpdateOneRequiredWithoutJadwal_tujuanNestedInput
     kelas_kereta?: Kelas_KeretaUpdateOneRequiredWithoutJadwal_keretaNestedInput
+    gerbong?: GerbongUpdateOneRequiredWithoutJadwal_KeretaNestedInput
   }
 
-  export type Jadwal_KeretaUncheckedUpdateWithoutTicketInput = {
+  export type Jadwal_KeretaUncheckedUpdateWithoutTicketsInput = {
     id?: IntFieldUpdateOperationsInput | number
     dari_id?: IntFieldUpdateOperationsInput | number
     ke_id?: IntFieldUpdateOperationsInput | number
@@ -13880,6 +15774,7 @@ export namespace Prisma {
     jam_berangkat?: StringFieldUpdateOperationsInput | string
     jam_tiba?: StringFieldUpdateOperationsInput | string
     harga?: FloatFieldUpdateOperationsInput | number
+    gerbong_id?: IntFieldUpdateOperationsInput | number
   }
 
   export type TransaksiUpsertWithoutTicketsInput = {
@@ -13895,8 +15790,10 @@ export namespace Prisma {
 
   export type TransaksiUpdateWithoutTicketsInput = {
     total_harga?: FloatFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
+    status?: Enumorder_statusFieldUpdateOperationsInput | $Enums.order_status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    va?: NullableStringFieldUpdateOperationsInput | string | null
+    nomor_kartu?: NullableStringFieldUpdateOperationsInput | string | null
     metode_pembayaran?: Metode_PembayaranUpdateOneRequiredWithoutTransaksi_listNestedInput
   }
 
@@ -13904,8 +15801,90 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     total_harga?: FloatFieldUpdateOperationsInput | number
     metode_pembayaran_id?: IntFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
+    status?: Enumorder_statusFieldUpdateOperationsInput | $Enums.order_status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    va?: NullableStringFieldUpdateOperationsInput | string | null
+    nomor_kartu?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PenumpangUpsertWithoutTicketInput = {
+    update: XOR<PenumpangUpdateWithoutTicketInput, PenumpangUncheckedUpdateWithoutTicketInput>
+    create: XOR<PenumpangCreateWithoutTicketInput, PenumpangUncheckedCreateWithoutTicketInput>
+    where?: PenumpangWhereInput
+  }
+
+  export type PenumpangUpdateToOneWithWhereWithoutTicketInput = {
+    where?: PenumpangWhereInput
+    data: XOR<PenumpangUpdateWithoutTicketInput, PenumpangUncheckedUpdateWithoutTicketInput>
+  }
+
+  export type PenumpangUpdateWithoutTicketInput = {
+    nama?: StringFieldUpdateOperationsInput | string
+    nomor_identitas?: StringFieldUpdateOperationsInput | string
+    nomor_hp?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PenumpangUncheckedUpdateWithoutTicketInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nama?: StringFieldUpdateOperationsInput | string
+    nomor_identitas?: StringFieldUpdateOperationsInput | string
+    nomor_hp?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TicketCreateWithoutPenumpangInput = {
+    tanggal: Date | string
+    user: UserCreateNestedOneWithoutTicketsInput
+    kursi: KursiCreateNestedOneWithoutTicketsInput
+    kelas_kereta: Kelas_KeretaCreateNestedOneWithoutTicketsInput
+    jadwal_kereta: Jadwal_KeretaCreateNestedOneWithoutTicketsInput
+    transaksi?: TransaksiCreateNestedOneWithoutTicketsInput
+  }
+
+  export type TicketUncheckedCreateWithoutPenumpangInput = {
+    id?: number
+    user_id: number
+    kursi_id: number
+    kelas_kereta_id: number
+    jadwal_kereta_id: number
+    transaksi_id?: number | null
+    tanggal: Date | string
+  }
+
+  export type TicketCreateOrConnectWithoutPenumpangInput = {
+    where: TicketWhereUniqueInput
+    create: XOR<TicketCreateWithoutPenumpangInput, TicketUncheckedCreateWithoutPenumpangInput>
+  }
+
+  export type TicketUpsertWithoutPenumpangInput = {
+    update: XOR<TicketUpdateWithoutPenumpangInput, TicketUncheckedUpdateWithoutPenumpangInput>
+    create: XOR<TicketCreateWithoutPenumpangInput, TicketUncheckedCreateWithoutPenumpangInput>
+    where?: TicketWhereInput
+  }
+
+  export type TicketUpdateToOneWithWhereWithoutPenumpangInput = {
+    where?: TicketWhereInput
+    data: XOR<TicketUpdateWithoutPenumpangInput, TicketUncheckedUpdateWithoutPenumpangInput>
+  }
+
+  export type TicketUpdateWithoutPenumpangInput = {
+    tanggal?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutTicketsNestedInput
+    kursi?: KursiUpdateOneRequiredWithoutTicketsNestedInput
+    kelas_kereta?: Kelas_KeretaUpdateOneRequiredWithoutTicketsNestedInput
+    jadwal_kereta?: Jadwal_KeretaUpdateOneRequiredWithoutTicketsNestedInput
+    transaksi?: TransaksiUpdateOneWithoutTicketsNestedInput
+  }
+
+  export type TicketUncheckedUpdateWithoutPenumpangInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    user_id?: IntFieldUpdateOperationsInput | number
+    kursi_id?: IntFieldUpdateOperationsInput | number
+    kelas_kereta_id?: IntFieldUpdateOperationsInput | number
+    jadwal_kereta_id?: IntFieldUpdateOperationsInput | number
+    transaksi_id?: NullableIntFieldUpdateOperationsInput | number | null
+    tanggal?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TicketCreateWithoutTransaksiInput = {
@@ -13913,7 +15892,8 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutTicketsInput
     kursi: KursiCreateNestedOneWithoutTicketsInput
     kelas_kereta: Kelas_KeretaCreateNestedOneWithoutTicketsInput
-    jadwal_kereta: Jadwal_KeretaCreateNestedOneWithoutTicketInput
+    jadwal_kereta: Jadwal_KeretaCreateNestedOneWithoutTicketsInput
+    penumpang?: PenumpangCreateNestedOneWithoutTicketInput
   }
 
   export type TicketUncheckedCreateWithoutTransaksiInput = {
@@ -13923,6 +15903,7 @@ export namespace Prisma {
     kelas_kereta_id: number
     jadwal_kereta_id: number
     tanggal: Date | string
+    penumpang?: PenumpangUncheckedCreateNestedOneWithoutTicketInput
   }
 
   export type TicketCreateOrConnectWithoutTransaksiInput = {
@@ -13937,11 +15918,13 @@ export namespace Prisma {
 
   export type Metode_PembayaranCreateWithoutTransaksi_listInput = {
     nama: string
+    tipe?: $Enums.paymentmethod_tipe | null
   }
 
   export type Metode_PembayaranUncheckedCreateWithoutTransaksi_listInput = {
     id?: number
     nama: string
+    tipe?: $Enums.paymentmethod_tipe | null
   }
 
   export type Metode_PembayaranCreateOrConnectWithoutTransaksi_listInput = {
@@ -13978,25 +15961,31 @@ export namespace Prisma {
 
   export type Metode_PembayaranUpdateWithoutTransaksi_listInput = {
     nama?: StringFieldUpdateOperationsInput | string
+    tipe?: NullableEnumpaymentmethod_tipeFieldUpdateOperationsInput | $Enums.paymentmethod_tipe | null
   }
 
   export type Metode_PembayaranUncheckedUpdateWithoutTransaksi_listInput = {
     id?: IntFieldUpdateOperationsInput | number
     nama?: StringFieldUpdateOperationsInput | string
+    tipe?: NullableEnumpaymentmethod_tipeFieldUpdateOperationsInput | $Enums.paymentmethod_tipe | null
   }
 
   export type TransaksiCreateWithoutMetode_pembayaranInput = {
     total_harga: number
-    status: string
+    status: $Enums.order_status
     createdAt?: Date | string
+    va?: string | null
+    nomor_kartu?: string | null
     tickets?: TicketCreateNestedManyWithoutTransaksiInput
   }
 
   export type TransaksiUncheckedCreateWithoutMetode_pembayaranInput = {
     id?: number
     total_harga: number
-    status: string
+    status: $Enums.order_status
     createdAt?: Date | string
+    va?: string | null
+    nomor_kartu?: string | null
     tickets?: TicketUncheckedCreateNestedManyWithoutTransaksiInput
   }
 
@@ -14033,8 +16022,10 @@ export namespace Prisma {
     id?: IntFilter<"Transaksi"> | number
     total_harga?: FloatFilter<"Transaksi"> | number
     metode_pembayaran_id?: IntFilter<"Transaksi"> | number
-    status?: StringFilter<"Transaksi"> | string
+    status?: Enumorder_statusFilter<"Transaksi"> | $Enums.order_status
     createdAt?: DateTimeFilter<"Transaksi"> | Date | string
+    va?: StringNullableFilter<"Transaksi"> | string | null
+    nomor_kartu?: StringNullableFilter<"Transaksi"> | string | null
   }
 
   export type StasiunCreateWithoutJadwal_berangkatInput = {
@@ -14097,6 +16088,7 @@ export namespace Prisma {
     kursi: KursiCreateNestedOneWithoutTicketsInput
     kelas_kereta: Kelas_KeretaCreateNestedOneWithoutTicketsInput
     transaksi?: TransaksiCreateNestedOneWithoutTicketsInput
+    penumpang?: PenumpangCreateNestedOneWithoutTicketInput
   }
 
   export type TicketUncheckedCreateWithoutJadwal_keretaInput = {
@@ -14106,6 +16098,7 @@ export namespace Prisma {
     kelas_kereta_id: number
     transaksi_id?: number | null
     tanggal: Date | string
+    penumpang?: PenumpangUncheckedCreateNestedOneWithoutTicketInput
   }
 
   export type TicketCreateOrConnectWithoutJadwal_keretaInput = {
@@ -14116,6 +16109,24 @@ export namespace Prisma {
   export type TicketCreateManyJadwal_keretaInputEnvelope = {
     data: TicketCreateManyJadwal_keretaInput | TicketCreateManyJadwal_keretaInput[]
     skipDuplicates?: boolean
+  }
+
+  export type GerbongCreateWithoutJadwal_KeretaInput = {
+    nama: string
+    kelas_kereta: Kelas_KeretaCreateNestedOneWithoutGerbong_listInput
+    kursi_list?: KursiCreateNestedManyWithoutGerbongInput
+  }
+
+  export type GerbongUncheckedCreateWithoutJadwal_KeretaInput = {
+    id?: number
+    nama: string
+    kelas_kereta_id: number
+    kursi_list?: KursiUncheckedCreateNestedManyWithoutGerbongInput
+  }
+
+  export type GerbongCreateOrConnectWithoutJadwal_KeretaInput = {
+    where: GerbongWhereUniqueInput
+    create: XOR<GerbongCreateWithoutJadwal_KeretaInput, GerbongUncheckedCreateWithoutJadwal_KeretaInput>
   }
 
   export type StasiunUpsertWithoutJadwal_berangkatInput = {
@@ -14206,6 +16217,30 @@ export namespace Prisma {
     data: XOR<TicketUpdateManyMutationInput, TicketUncheckedUpdateManyWithoutJadwal_keretaInput>
   }
 
+  export type GerbongUpsertWithoutJadwal_KeretaInput = {
+    update: XOR<GerbongUpdateWithoutJadwal_KeretaInput, GerbongUncheckedUpdateWithoutJadwal_KeretaInput>
+    create: XOR<GerbongCreateWithoutJadwal_KeretaInput, GerbongUncheckedCreateWithoutJadwal_KeretaInput>
+    where?: GerbongWhereInput
+  }
+
+  export type GerbongUpdateToOneWithWhereWithoutJadwal_KeretaInput = {
+    where?: GerbongWhereInput
+    data: XOR<GerbongUpdateWithoutJadwal_KeretaInput, GerbongUncheckedUpdateWithoutJadwal_KeretaInput>
+  }
+
+  export type GerbongUpdateWithoutJadwal_KeretaInput = {
+    nama?: StringFieldUpdateOperationsInput | string
+    kelas_kereta?: Kelas_KeretaUpdateOneRequiredWithoutGerbong_listNestedInput
+    kursi_list?: KursiUpdateManyWithoutGerbongNestedInput
+  }
+
+  export type GerbongUncheckedUpdateWithoutJadwal_KeretaInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nama?: StringFieldUpdateOperationsInput | string
+    kelas_kereta_id?: IntFieldUpdateOperationsInput | number
+    kursi_list?: KursiUncheckedUpdateManyWithoutGerbongNestedInput
+  }
+
   export type Jadwal_KeretaCreateWithoutDari_stasiunInput = {
     tanggal?: Date | string
     jam_berangkat: string
@@ -14213,7 +16248,8 @@ export namespace Prisma {
     harga: number
     ke_stasiun: StasiunCreateNestedOneWithoutJadwal_tujuanInput
     kelas_kereta: Kelas_KeretaCreateNestedOneWithoutJadwal_keretaInput
-    Ticket?: TicketCreateNestedManyWithoutJadwal_keretaInput
+    tickets?: TicketCreateNestedManyWithoutJadwal_keretaInput
+    gerbong: GerbongCreateNestedOneWithoutJadwal_KeretaInput
   }
 
   export type Jadwal_KeretaUncheckedCreateWithoutDari_stasiunInput = {
@@ -14224,7 +16260,8 @@ export namespace Prisma {
     jam_berangkat: string
     jam_tiba: string
     harga: number
-    Ticket?: TicketUncheckedCreateNestedManyWithoutJadwal_keretaInput
+    gerbong_id: number
+    tickets?: TicketUncheckedCreateNestedManyWithoutJadwal_keretaInput
   }
 
   export type Jadwal_KeretaCreateOrConnectWithoutDari_stasiunInput = {
@@ -14244,7 +16281,8 @@ export namespace Prisma {
     harga: number
     dari_stasiun: StasiunCreateNestedOneWithoutJadwal_berangkatInput
     kelas_kereta: Kelas_KeretaCreateNestedOneWithoutJadwal_keretaInput
-    Ticket?: TicketCreateNestedManyWithoutJadwal_keretaInput
+    tickets?: TicketCreateNestedManyWithoutJadwal_keretaInput
+    gerbong: GerbongCreateNestedOneWithoutJadwal_KeretaInput
   }
 
   export type Jadwal_KeretaUncheckedCreateWithoutKe_stasiunInput = {
@@ -14255,7 +16293,8 @@ export namespace Prisma {
     jam_berangkat: string
     jam_tiba: string
     harga: number
-    Ticket?: TicketUncheckedCreateNestedManyWithoutJadwal_keretaInput
+    gerbong_id: number
+    tickets?: TicketUncheckedCreateNestedManyWithoutJadwal_keretaInput
   }
 
   export type Jadwal_KeretaCreateOrConnectWithoutKe_stasiunInput = {
@@ -14313,8 +16352,9 @@ export namespace Prisma {
     tanggal?: DateTimeFieldUpdateOperationsInput | Date | string
     kursi?: KursiUpdateOneRequiredWithoutTicketsNestedInput
     kelas_kereta?: Kelas_KeretaUpdateOneRequiredWithoutTicketsNestedInput
-    jadwal_kereta?: Jadwal_KeretaUpdateOneRequiredWithoutTicketNestedInput
+    jadwal_kereta?: Jadwal_KeretaUpdateOneRequiredWithoutTicketsNestedInput
     transaksi?: TransaksiUpdateOneWithoutTicketsNestedInput
+    penumpang?: PenumpangUpdateOneWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateWithoutUserInput = {
@@ -14324,6 +16364,7 @@ export namespace Prisma {
     jadwal_kereta_id?: IntFieldUpdateOperationsInput | number
     transaksi_id?: NullableIntFieldUpdateOperationsInput | number | null
     tanggal?: DateTimeFieldUpdateOperationsInput | Date | string
+    penumpang?: PenumpangUncheckedUpdateOneWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateManyWithoutUserInput = {
@@ -14357,17 +16398,20 @@ export namespace Prisma {
     jam_berangkat: string
     jam_tiba: string
     harga: number
+    gerbong_id: number
   }
 
   export type GerbongUpdateWithoutKelas_keretaInput = {
     nama?: StringFieldUpdateOperationsInput | string
     kursi_list?: KursiUpdateManyWithoutGerbongNestedInput
+    Jadwal_Kereta?: Jadwal_KeretaUpdateManyWithoutGerbongNestedInput
   }
 
   export type GerbongUncheckedUpdateWithoutKelas_keretaInput = {
     id?: IntFieldUpdateOperationsInput | number
     nama?: StringFieldUpdateOperationsInput | string
     kursi_list?: KursiUncheckedUpdateManyWithoutGerbongNestedInput
+    Jadwal_Kereta?: Jadwal_KeretaUncheckedUpdateManyWithoutGerbongNestedInput
   }
 
   export type GerbongUncheckedUpdateManyWithoutKelas_keretaInput = {
@@ -14379,8 +16423,9 @@ export namespace Prisma {
     tanggal?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutTicketsNestedInput
     kursi?: KursiUpdateOneRequiredWithoutTicketsNestedInput
-    jadwal_kereta?: Jadwal_KeretaUpdateOneRequiredWithoutTicketNestedInput
+    jadwal_kereta?: Jadwal_KeretaUpdateOneRequiredWithoutTicketsNestedInput
     transaksi?: TransaksiUpdateOneWithoutTicketsNestedInput
+    penumpang?: PenumpangUpdateOneWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateWithoutKelas_keretaInput = {
@@ -14390,6 +16435,7 @@ export namespace Prisma {
     jadwal_kereta_id?: IntFieldUpdateOperationsInput | number
     transaksi_id?: NullableIntFieldUpdateOperationsInput | number | null
     tanggal?: DateTimeFieldUpdateOperationsInput | Date | string
+    penumpang?: PenumpangUncheckedUpdateOneWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateManyWithoutKelas_keretaInput = {
@@ -14408,7 +16454,8 @@ export namespace Prisma {
     harga?: FloatFieldUpdateOperationsInput | number
     dari_stasiun?: StasiunUpdateOneRequiredWithoutJadwal_berangkatNestedInput
     ke_stasiun?: StasiunUpdateOneRequiredWithoutJadwal_tujuanNestedInput
-    Ticket?: TicketUpdateManyWithoutJadwal_keretaNestedInput
+    tickets?: TicketUpdateManyWithoutJadwal_keretaNestedInput
+    gerbong?: GerbongUpdateOneRequiredWithoutJadwal_KeretaNestedInput
   }
 
   export type Jadwal_KeretaUncheckedUpdateWithoutKelas_keretaInput = {
@@ -14419,7 +16466,8 @@ export namespace Prisma {
     jam_berangkat?: StringFieldUpdateOperationsInput | string
     jam_tiba?: StringFieldUpdateOperationsInput | string
     harga?: FloatFieldUpdateOperationsInput | number
-    Ticket?: TicketUncheckedUpdateManyWithoutJadwal_keretaNestedInput
+    gerbong_id?: IntFieldUpdateOperationsInput | number
+    tickets?: TicketUncheckedUpdateManyWithoutJadwal_keretaNestedInput
   }
 
   export type Jadwal_KeretaUncheckedUpdateManyWithoutKelas_keretaInput = {
@@ -14430,11 +16478,23 @@ export namespace Prisma {
     jam_berangkat?: StringFieldUpdateOperationsInput | string
     jam_tiba?: StringFieldUpdateOperationsInput | string
     harga?: FloatFieldUpdateOperationsInput | number
+    gerbong_id?: IntFieldUpdateOperationsInput | number
   }
 
   export type KursiCreateManyGerbongInput = {
     id?: number
     nomor: string
+  }
+
+  export type Jadwal_KeretaCreateManyGerbongInput = {
+    id?: number
+    dari_id: number
+    ke_id: number
+    tanggal?: Date | string
+    kelas_kereta_id: number
+    jam_berangkat: string
+    jam_tiba: string
+    harga: number
   }
 
   export type KursiUpdateWithoutGerbongInput = {
@@ -14453,6 +16513,40 @@ export namespace Prisma {
     nomor?: StringFieldUpdateOperationsInput | string
   }
 
+  export type Jadwal_KeretaUpdateWithoutGerbongInput = {
+    tanggal?: DateTimeFieldUpdateOperationsInput | Date | string
+    jam_berangkat?: StringFieldUpdateOperationsInput | string
+    jam_tiba?: StringFieldUpdateOperationsInput | string
+    harga?: FloatFieldUpdateOperationsInput | number
+    dari_stasiun?: StasiunUpdateOneRequiredWithoutJadwal_berangkatNestedInput
+    ke_stasiun?: StasiunUpdateOneRequiredWithoutJadwal_tujuanNestedInput
+    kelas_kereta?: Kelas_KeretaUpdateOneRequiredWithoutJadwal_keretaNestedInput
+    tickets?: TicketUpdateManyWithoutJadwal_keretaNestedInput
+  }
+
+  export type Jadwal_KeretaUncheckedUpdateWithoutGerbongInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    dari_id?: IntFieldUpdateOperationsInput | number
+    ke_id?: IntFieldUpdateOperationsInput | number
+    tanggal?: DateTimeFieldUpdateOperationsInput | Date | string
+    kelas_kereta_id?: IntFieldUpdateOperationsInput | number
+    jam_berangkat?: StringFieldUpdateOperationsInput | string
+    jam_tiba?: StringFieldUpdateOperationsInput | string
+    harga?: FloatFieldUpdateOperationsInput | number
+    tickets?: TicketUncheckedUpdateManyWithoutJadwal_keretaNestedInput
+  }
+
+  export type Jadwal_KeretaUncheckedUpdateManyWithoutGerbongInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    dari_id?: IntFieldUpdateOperationsInput | number
+    ke_id?: IntFieldUpdateOperationsInput | number
+    tanggal?: DateTimeFieldUpdateOperationsInput | Date | string
+    kelas_kereta_id?: IntFieldUpdateOperationsInput | number
+    jam_berangkat?: StringFieldUpdateOperationsInput | string
+    jam_tiba?: StringFieldUpdateOperationsInput | string
+    harga?: FloatFieldUpdateOperationsInput | number
+  }
+
   export type TicketCreateManyKursiInput = {
     id?: number
     user_id: number
@@ -14466,8 +16560,9 @@ export namespace Prisma {
     tanggal?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutTicketsNestedInput
     kelas_kereta?: Kelas_KeretaUpdateOneRequiredWithoutTicketsNestedInput
-    jadwal_kereta?: Jadwal_KeretaUpdateOneRequiredWithoutTicketNestedInput
+    jadwal_kereta?: Jadwal_KeretaUpdateOneRequiredWithoutTicketsNestedInput
     transaksi?: TransaksiUpdateOneWithoutTicketsNestedInput
+    penumpang?: PenumpangUpdateOneWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateWithoutKursiInput = {
@@ -14477,6 +16572,7 @@ export namespace Prisma {
     jadwal_kereta_id?: IntFieldUpdateOperationsInput | number
     transaksi_id?: NullableIntFieldUpdateOperationsInput | number | null
     tanggal?: DateTimeFieldUpdateOperationsInput | Date | string
+    penumpang?: PenumpangUncheckedUpdateOneWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateManyWithoutKursiInput = {
@@ -14502,7 +16598,8 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutTicketsNestedInput
     kursi?: KursiUpdateOneRequiredWithoutTicketsNestedInput
     kelas_kereta?: Kelas_KeretaUpdateOneRequiredWithoutTicketsNestedInput
-    jadwal_kereta?: Jadwal_KeretaUpdateOneRequiredWithoutTicketNestedInput
+    jadwal_kereta?: Jadwal_KeretaUpdateOneRequiredWithoutTicketsNestedInput
+    penumpang?: PenumpangUpdateOneWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateWithoutTransaksiInput = {
@@ -14512,6 +16609,7 @@ export namespace Prisma {
     kelas_kereta_id?: IntFieldUpdateOperationsInput | number
     jadwal_kereta_id?: IntFieldUpdateOperationsInput | number
     tanggal?: DateTimeFieldUpdateOperationsInput | Date | string
+    penumpang?: PenumpangUncheckedUpdateOneWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateManyWithoutTransaksiInput = {
@@ -14526,30 +16624,38 @@ export namespace Prisma {
   export type TransaksiCreateManyMetode_pembayaranInput = {
     id?: number
     total_harga: number
-    status: string
+    status: $Enums.order_status
     createdAt?: Date | string
+    va?: string | null
+    nomor_kartu?: string | null
   }
 
   export type TransaksiUpdateWithoutMetode_pembayaranInput = {
     total_harga?: FloatFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
+    status?: Enumorder_statusFieldUpdateOperationsInput | $Enums.order_status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    va?: NullableStringFieldUpdateOperationsInput | string | null
+    nomor_kartu?: NullableStringFieldUpdateOperationsInput | string | null
     tickets?: TicketUpdateManyWithoutTransaksiNestedInput
   }
 
   export type TransaksiUncheckedUpdateWithoutMetode_pembayaranInput = {
     id?: IntFieldUpdateOperationsInput | number
     total_harga?: FloatFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
+    status?: Enumorder_statusFieldUpdateOperationsInput | $Enums.order_status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    va?: NullableStringFieldUpdateOperationsInput | string | null
+    nomor_kartu?: NullableStringFieldUpdateOperationsInput | string | null
     tickets?: TicketUncheckedUpdateManyWithoutTransaksiNestedInput
   }
 
   export type TransaksiUncheckedUpdateManyWithoutMetode_pembayaranInput = {
     id?: IntFieldUpdateOperationsInput | number
     total_harga?: FloatFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
+    status?: Enumorder_statusFieldUpdateOperationsInput | $Enums.order_status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    va?: NullableStringFieldUpdateOperationsInput | string | null
+    nomor_kartu?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TicketCreateManyJadwal_keretaInput = {
@@ -14567,6 +16673,7 @@ export namespace Prisma {
     kursi?: KursiUpdateOneRequiredWithoutTicketsNestedInput
     kelas_kereta?: Kelas_KeretaUpdateOneRequiredWithoutTicketsNestedInput
     transaksi?: TransaksiUpdateOneWithoutTicketsNestedInput
+    penumpang?: PenumpangUpdateOneWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateWithoutJadwal_keretaInput = {
@@ -14576,6 +16683,7 @@ export namespace Prisma {
     kelas_kereta_id?: IntFieldUpdateOperationsInput | number
     transaksi_id?: NullableIntFieldUpdateOperationsInput | number | null
     tanggal?: DateTimeFieldUpdateOperationsInput | Date | string
+    penumpang?: PenumpangUncheckedUpdateOneWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateManyWithoutJadwal_keretaInput = {
@@ -14595,6 +16703,7 @@ export namespace Prisma {
     jam_berangkat: string
     jam_tiba: string
     harga: number
+    gerbong_id: number
   }
 
   export type Jadwal_KeretaCreateManyKe_stasiunInput = {
@@ -14605,6 +16714,7 @@ export namespace Prisma {
     jam_berangkat: string
     jam_tiba: string
     harga: number
+    gerbong_id: number
   }
 
   export type Jadwal_KeretaUpdateWithoutDari_stasiunInput = {
@@ -14614,7 +16724,8 @@ export namespace Prisma {
     harga?: FloatFieldUpdateOperationsInput | number
     ke_stasiun?: StasiunUpdateOneRequiredWithoutJadwal_tujuanNestedInput
     kelas_kereta?: Kelas_KeretaUpdateOneRequiredWithoutJadwal_keretaNestedInput
-    Ticket?: TicketUpdateManyWithoutJadwal_keretaNestedInput
+    tickets?: TicketUpdateManyWithoutJadwal_keretaNestedInput
+    gerbong?: GerbongUpdateOneRequiredWithoutJadwal_KeretaNestedInput
   }
 
   export type Jadwal_KeretaUncheckedUpdateWithoutDari_stasiunInput = {
@@ -14625,7 +16736,8 @@ export namespace Prisma {
     jam_berangkat?: StringFieldUpdateOperationsInput | string
     jam_tiba?: StringFieldUpdateOperationsInput | string
     harga?: FloatFieldUpdateOperationsInput | number
-    Ticket?: TicketUncheckedUpdateManyWithoutJadwal_keretaNestedInput
+    gerbong_id?: IntFieldUpdateOperationsInput | number
+    tickets?: TicketUncheckedUpdateManyWithoutJadwal_keretaNestedInput
   }
 
   export type Jadwal_KeretaUncheckedUpdateManyWithoutDari_stasiunInput = {
@@ -14636,6 +16748,7 @@ export namespace Prisma {
     jam_berangkat?: StringFieldUpdateOperationsInput | string
     jam_tiba?: StringFieldUpdateOperationsInput | string
     harga?: FloatFieldUpdateOperationsInput | number
+    gerbong_id?: IntFieldUpdateOperationsInput | number
   }
 
   export type Jadwal_KeretaUpdateWithoutKe_stasiunInput = {
@@ -14645,7 +16758,8 @@ export namespace Prisma {
     harga?: FloatFieldUpdateOperationsInput | number
     dari_stasiun?: StasiunUpdateOneRequiredWithoutJadwal_berangkatNestedInput
     kelas_kereta?: Kelas_KeretaUpdateOneRequiredWithoutJadwal_keretaNestedInput
-    Ticket?: TicketUpdateManyWithoutJadwal_keretaNestedInput
+    tickets?: TicketUpdateManyWithoutJadwal_keretaNestedInput
+    gerbong?: GerbongUpdateOneRequiredWithoutJadwal_KeretaNestedInput
   }
 
   export type Jadwal_KeretaUncheckedUpdateWithoutKe_stasiunInput = {
@@ -14656,7 +16770,8 @@ export namespace Prisma {
     jam_berangkat?: StringFieldUpdateOperationsInput | string
     jam_tiba?: StringFieldUpdateOperationsInput | string
     harga?: FloatFieldUpdateOperationsInput | number
-    Ticket?: TicketUncheckedUpdateManyWithoutJadwal_keretaNestedInput
+    gerbong_id?: IntFieldUpdateOperationsInput | number
+    tickets?: TicketUncheckedUpdateManyWithoutJadwal_keretaNestedInput
   }
 
   export type Jadwal_KeretaUncheckedUpdateManyWithoutKe_stasiunInput = {
@@ -14667,6 +16782,7 @@ export namespace Prisma {
     jam_berangkat?: StringFieldUpdateOperationsInput | string
     jam_tiba?: StringFieldUpdateOperationsInput | string
     harga?: FloatFieldUpdateOperationsInput | number
+    gerbong_id?: IntFieldUpdateOperationsInput | number
   }
 
 

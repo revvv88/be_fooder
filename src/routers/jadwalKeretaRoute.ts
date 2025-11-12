@@ -8,7 +8,7 @@ const app = express()
 app.use(express.json())
 
 app.get(`/`,getJadwalKereta)
-app.get(`/tiket/:id`, getJadwalKeretaById)
+app.get(`/:id`, getJadwalKeretaById)
 app.post(`/` , createJadwalKereta)
 app.put(`/:id` , updateJadwalKereta)
 app.delete(`/:id`, deleteJadwalKereta)
